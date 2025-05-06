@@ -293,8 +293,8 @@ public class AnimeFragment extends Fragment implements AnimeAdapter.OnAnimeClick
     @Override
     public void onAnimeClick(AnimeData anime) {
         if (getContext() != null && anime != null) {
-            // Launch the detail activity for this anime
-            com.example.animerecs.ui.detail.DetailHelper.openAnimeDetail(getContext(), anime);
+            // Launch the detail activity for this anime - use the same pattern as HomeFragment
+            startActivity(AnimeDetailActivity.newIntent(getContext(), anime.getMalId()));
         }
     }
     

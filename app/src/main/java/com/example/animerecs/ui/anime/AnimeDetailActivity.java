@@ -2,9 +2,13 @@ package com.example.animerecs.ui.anime;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
@@ -46,6 +51,9 @@ public class AnimeDetailActivity extends AppCompatActivity {
     private Button bookmarkButton, recommendButton;
     private ChipGroup preferencesChipGroup;
     private Chip likeChip, dislikeChip, watchedChip, watchLaterChip;
+    private WebView trailerWebView;
+    private TextView trailerTitleView;
+    private CardView trailerCardView;
     
     private UserRepository userRepository;
     
@@ -99,6 +107,28 @@ public class AnimeDetailActivity extends AppCompatActivity {
         dislikeChip = findViewById(R.id.chip_dislike);
         watchedChip = findViewById(R.id.chip_watched);
         watchLaterChip = findViewById(R.id.chip_watch_later);
+        
+        trailerWebView = findViewById(R.id.trailer_webview);
+        trailerTitleView = findViewById(R.id.trailer_title);
+        trailerCardView = findViewById(R.id.trailer_card);
+        
+        // Configure WebView settings
+        WebSettings webSettings = trailerWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        
+        // Set WebViewClient to handle URL navigation
+        trailerWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                // If trying to navigate away from YouTube, open in browser instead
+                if (url != null && !url.startsWith("https://www.youtube.com")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
         
         FloatingActionButton fab = findViewById(R.id.fab_share);
         fab.setOnClickListener(this::shareAnime);
@@ -167,6 +197,26 @@ public class AnimeDetailActivity extends AppCompatActivity {
         episodesTextView.setText(String.format("Episodes: %d", anime.getEpisodes()));
         airedTextView.setText(String.format("Aired: %s", anime.getAiredString()));
         genresTextView.setText(String.format("Genres: %s", anime.getGenresString()));
+        
+        // Display trailer if available
+        if (anime.hasTrailer()) {
+            trailerTitleView.setVisibility(View.VISIBLE);
+            trailerCardView.setVisibility(View.VISIBLE);
+            
+            // Get the embed URL
+            String embedUrl = anime.getYoutubeEmbedUrl();
+            
+            // Load the trailer in the WebView
+            String html = "<html><body style='margin:0;padding:0;'>" +
+                          "<iframe width='100%' height='100%' src='" + embedUrl + 
+                          "' frameborder='0' allowfullscreen></iframe>" +
+                          "</body></html>";
+                          
+            trailerWebView.loadDataWithBaseURL("https://www.youtube.com", html, "text/html", "utf-8", null);
+        } else {
+            trailerTitleView.setVisibility(View.GONE);
+            trailerCardView.setVisibility(View.GONE);
+        }
     }
     
     private void loadUserPreferences() {

@@ -124,6 +124,7 @@
     <string name="error_loading_data">Failed to load data. Please try again.</string>
     <string name="retry">Retry</string>
     <string name="synopsis">Synopsis</string>
+    <string name="trailer">Trailer</string>
     <string name="anime_image">Anime Image</string>
     <string name="manga_image">Manga Image</string>
     <string name="bookmark_added">Added to bookmarks</string>

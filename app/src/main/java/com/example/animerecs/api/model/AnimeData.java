@@ -40,6 +40,9 @@ public class AnimeData {
     @SerializedName("url")
     private String url;
     
+    @SerializedName("trailer")
+    private Trailer trailer;
+    
     // Constructor
     public AnimeData() {
     }
@@ -135,6 +138,39 @@ public class AnimeData {
     
     public void setUrl(String url) {
         this.url = url;
+    }
+    
+    public Trailer getTrailer() {
+        return trailer;
+    }
+    
+    public void setTrailer(Trailer trailer) {
+        this.trailer = trailer;
+    }
+    
+    public boolean hasTrailer() {
+        return trailer != null && trailer.getYoutubeId() != null && !trailer.getYoutubeId().isEmpty();
+    }
+    
+    public String getTrailerUrl() {
+        if (hasTrailer()) {
+            return trailer.getUrl();
+        }
+        return "";
+    }
+    
+    public String getYoutubeTrailerUrl() {
+        if (hasTrailer()) {
+            return "https://www.youtube.com/watch?v=" + trailer.getYoutubeId();
+        }
+        return "";
+    }
+    
+    public String getYoutubeEmbedUrl() {
+        if (hasTrailer()) {
+            return "https://www.youtube.com/embed/" + trailer.getYoutubeId();
+        }
+        return "";
     }
     
     // Helper methods
@@ -235,6 +271,41 @@ public class AnimeData {
         
         public void setLargeImageUrl(String largeImageUrl) {
             this.largeImageUrl = largeImageUrl;
+        }
+    }
+    
+    public static class Trailer {
+        @SerializedName("youtube_id")
+        private String youtubeId;
+        
+        @SerializedName("url")
+        private String url;
+        
+        @SerializedName("embed_url")
+        private String embedUrl;
+        
+        public String getYoutubeId() {
+            return youtubeId;
+        }
+        
+        public void setYoutubeId(String youtubeId) {
+            this.youtubeId = youtubeId;
+        }
+        
+        public String getUrl() {
+            return url;
+        }
+        
+        public void setUrl(String url) {
+            this.url = url;
+        }
+        
+        public String getEmbedUrl() {
+            return embedUrl;
+        }
+        
+        public void setEmbedUrl(String embedUrl) {
+            this.embedUrl = embedUrl;
         }
     }
 } 

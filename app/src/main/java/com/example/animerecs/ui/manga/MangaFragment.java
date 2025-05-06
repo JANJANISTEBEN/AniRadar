@@ -25,7 +25,6 @@ import com.example.animerecs.data.model.Bookmark;
 import com.example.animerecs.data.repository.BookmarkRepository;
 import com.example.animerecs.databinding.FragmentMangaBinding;
 import com.example.animerecs.ui.bookmarks.BookmarksViewModel;
-import com.example.animerecs.ui.detail.MangaDetailActivity;
 import com.example.animerecs.ui.filter.FilterDialog;
 import com.example.animerecs.ui.filter.FilterOptions;
 import com.example.animerecs.util.ColorUtils;
@@ -231,11 +230,12 @@ public class MangaFragment extends Fragment implements MangaAdapter.OnMangaClick
     
     @Override
     public void onMangaClick(MangaData manga) {
-        Intent intent = new Intent(getContext(), MangaDetailActivity.class);
-        intent.putExtra("manga_id", manga.getMalId());
-        intent.putExtra("manga_title", manga.getTitle());
-        intent.putExtra("manga_image_url", manga.getImages().getJpg().getLargeImageUrl());
-        startActivity(intent);
+        if (getContext() != null && manga != null) {
+            // Create intent directly with the manga ID
+            Intent intent = new Intent(getContext(), MangaDetailActivity.class);
+            intent.putExtra("manga_id", manga.getMalId());
+            startActivity(intent);
+        }
     }
     
     @Override
