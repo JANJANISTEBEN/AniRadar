@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <!-- Header with Title -->
+    <androidx.appcompat.widget.Toolbar
+        style="@style/UnifiedHeaderToolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/HeaderTitle"
+                android:text="@string/title_home" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Divider -->
+    <View style="@style/Divider" />
+
+    <!-- Content ScrollView -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Welcome Message -->
+            <TextView
+                android:id="@+id/text_welcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Welcome to AnimeRecs!"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_dark"
+                android:shadowColor="#40000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Your personal anime and manga recommendation app."
+                android:textSize="16sp"
+                android:textColor="@color/primary_text" />
+
+            <!-- Top Anime Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Top Anime Recommendations"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_dark"
+                android:background="@drawable/section_header_background"
+                android:padding="8dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_top_anime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <ProgressBar
+                    android:id="@+id/loading_top_anime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/text_no_anime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="No anime recommendations available"
+                    android:textColor="@color/secondary_text"
+                    android:visibility="gone" />
+                    
+                <!-- Anime Retry Layout -->
+                <LinearLayout
+                    android:id="@+id/anime_error_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/anime_error_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Failed to load anime recommendations"
+                        android:textColor="@color/primary_dark"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="8dp" />
+
+                    <Button
+                        android:id="@+id/retry_anime_button"
+                        style="@style/SmallButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Retry" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!-- Top Manga Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Top Manga Recommendations"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_dark"
+                android:background="@drawable/section_header_background"
+                android:padding="8dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_top_manga"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <ProgressBar
+                    android:id="@+id/loading_top_manga"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/text_no_manga"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="No manga recommendations available"
+                    android:textColor="@color/secondary_text"
+                    android:visibility="gone" />
+                    
+                <!-- Manga Retry Layout -->
+                <LinearLayout
+                    android:id="@+id/manga_error_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/manga_error_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Failed to load manga recommendations"
+                        android:textColor="@color/primary_dark"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="8dp" />
+
+                    <Button
+                        android:id="@+id/retry_manga_button"
+                        style="@style/SmallButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Retry" />
+                </LinearLayout>
+            </RelativeLayout>
+            
+            <!-- Your Bookmarks Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Your Bookmarks"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_dark"
+                android:background="@drawable/section_header_background"
+                android:padding="8dp" />
+                
+            <Button
+                android:id="@+id/btn_view_bookmarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="View All Bookmarks"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/primary" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout> 

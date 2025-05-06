@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark theme color palette (inverted from light theme) -->
+    <color name="dark_primary_dark">#ECEFCA</color> <!-- Inverted darkest shade -->
+    <color name="dark_primary">#94B4C1</color> <!-- Inverted primary color -->
+    <color name="dark_primary_light">#547792</color> <!-- Inverted light shade -->
+    <color name="dark_background">#213448</color> <!-- Inverted background -->
+    <color name="dark_accent">#94B4C1</color> <!-- Using primary as accent -->
+    <color name="dark_surface">#2A3C50</color> <!-- Slightly lighter than background -->
+    <color name="dark_card_background">#304863</color> <!-- Even lighter for cards -->
+    <color name="dark_text_primary">#ECEFCA</color> <!-- Light text for readability -->
+    <color name="dark_text_secondary">#94B4C1</color> <!-- Secondary text -->
+    <color name="dark_divider">#547792</color> <!-- Darker shade for dividers -->
+    <color name="dark_ripple">#33FFFFFF</color> <!-- Light ripple on dark background -->
+</resources> 

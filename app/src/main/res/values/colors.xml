@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="white_70">#B3FFFFFF</color>
+    
+    <!-- App color palette (defaults to light theme) -->
+    <color name="primary_dark">@color/light_primary_dark</color>
+    <color name="primary">@color/light_primary</color>
+    <color name="primary_light">@color/light_primary_light</color>
+    <color name="secondary">@color/light_accent</color>
+    <color name="accent">@color/light_accent</color>
+    <color name="background">@color/light_background</color>
+    <color name="clickable_text">@color/light_primary</color>
+    <color name="grey">#757575</color>
+    <color name="light_grey">#E0E0E0</color>
+    
+    <!-- Additional colors for app -->
+    <color name="surface">@color/light_surface</color>
+    <color name="card_background">@color/light_card_background</color>
+    <color name="card_background_dark">#2A2A2A</color>
+    <color name="card_background_blue">#EEF3FF</color>  <!-- Lighter Blue for cards in blue theme -->
+    <color name="error">#F44336</color> <!-- Bright Red for errors -->
+    <color name="success">#4CAF50</color>
+    <color name="text_primary">@color/light_text_primary</color>
+    <color name="text_secondary">@color/light_text_secondary</color>
+    <color name="divider">@color/light_divider</color>
+    <color name="icon_tint">@color/primary</color>
+    <color name="chip_background">#E0E0E0</color>
+    <color name="chip_selected">@color/primary_light</color>
+    <color name="bookmark_active">#FFC107</color>
+    <color name="bookmark_inactive">#9E9E9E</color>
+    <color name="like_color">#4CAF50</color>
+    <color name="dislike_color">#F44336</color>
+    <color name="watched_color">#2196F3</color>
+    <color name="later_color">#FF9800</color>
+    <color name="colorAccent">@color/accent</color>
+    <color name="primary_text">@color/text_primary</color>
+    <color name="secondary_text">@color/text_secondary</color>
+    
+    <!-- New Material Design Colors -->
+    <color name="scrim">#99000000</color> <!-- Semi-transparent black for overlays -->
+    <color name="ripple_light">#1F000000</color> <!-- Light ripple effect -->
+    <color name="ripple_dark">#33FFFFFF</color> <!-- Dark ripple effect -->
+    <color name="rating_color">#FFC107</color> <!-- Amber for ratings -->
+    <color name="surface_variant">#F5F5F5</color> <!-- Slight off-white for varied surfaces -->
+    <color name="status_unwatched">#78909C</color> <!-- Blue grey for unwatched items -->
+    <color name="status_watching">#42A5F5</color> <!-- Blue for watching items -->
+    <color name="status_completed">#66BB6A</color> <!-- Green for completed items -->
+    <color name="status_on_hold">#FFB74D</color> <!-- Orange for on-hold items -->
+    <color name="status_dropped">#EF5350</color> <!-- Red for dropped items -->
+    <color name="status_plan_to_watch">#9575CD</color> <!-- Purple for plan to watch items -->
+    
+    <!-- Navigation Bar Colors -->
+    <color name="nav_bar_background">@color/surface</color>
+    <color name="nav_bar_selected_item">@color/primary</color>
+    <color name="nav_bar_unselected_item">#757575</color>
+    <color name="nav_bar_ripple">@color/ripple_light</color>
+    <color name="nav_bar_indicator">@color/accent</color>
+</resources>

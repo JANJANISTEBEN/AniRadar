@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <!-- Toolbar with back button -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/UnifiedHeaderToolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/white" />
+
+            <TextView
+                style="@style/HeaderTitle"
+                android:text="Help &amp; Support" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- FAQs Section -->
+            <TextView
+                style="@style/SectionTitle"
+                android:text="Frequently Asked Questions"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                style="@style/ItemCard"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- FAQ Item 1 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="How do I create an account?"
+                            android:textColor="@color/primary_dark"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="To create an account, tap on the Profile tab and select 'Login'. From there, you can choose to sign up with your email or use your Google account for a quicker registration process."
+                            android:textColor="@color/primary_text"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <View
+                        style="@style/Divider" />
+
+                    <!-- FAQ Item 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="How do I bookmark anime or manga?"
+                            android:textColor="@color/primary_dark"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="To bookmark an anime or manga, simply tap the bookmark icon on any anime or manga card. You can access all your bookmarks by navigating to the Bookmarks tab."
+                            android:textColor="@color/primary_text"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <View
+                        style="@style/Divider" />
+
+                    <!-- FAQ Item 3 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="How do I search for specific anime or manga?"
+                            android:textColor="@color/primary_dark"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="You can search for anime or manga by tapping on the Anime or Manga tab and using the search bar at the top of the screen. Type your query and press the search button on your keyboard."
+                            android:textColor="@color/primary_text"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Contact Support Section -->
+            <TextView
+                style="@style/SectionTitle"
+                android:text="Contact Support"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                style="@style/ItemCard"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="If you couldn't find an answer to your question, please contact our support team:"
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="16dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="12dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_email"
+                            app:tint="@color/primary"
+                            android:layout_marginEnd="12dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="support@animerecs.com"
+                            android:textColor="@color/primary"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_web"
+                            app:tint="@color/primary"
+                            android:layout_marginEnd="12dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="www.animerecs.com/support"
+                            android:textColor="@color/primary"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Report Issues Section -->
+            <TextView
+                style="@style/SectionTitle"
+                android:text="Report Issues"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                style="@style/ItemCard"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Found a bug or have a suggestion? We'd love to hear from you!"
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="16dp" />
+
+                    <Button
+                        android:id="@+id/reportIssueButton"
+                        style="@style/StandardButton"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:text="Report an Issue" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout> 

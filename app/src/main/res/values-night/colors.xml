@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App color palette for dark theme -->
+    <color name="primary_dark">@color/dark_primary_dark</color>
+    <color name="primary">@color/dark_primary</color>
+    <color name="primary_light">@color/dark_primary_light</color>
+    <color name="secondary">@color/dark_accent</color>
+    <color name="accent">@color/dark_accent</color>
+    <color name="background">@color/dark_background</color>
+    
+    <!-- Dark mode text colors -->
+    <color name="text_primary">@color/dark_text_primary</color>
+    <color name="text_secondary">@color/dark_text_secondary</color>
+    <color name="divider">@color/dark_divider</color>
+    <color name="primary_text">@color/dark_text_primary</color>
+    <color name="secondary_text">@color/dark_text_secondary</color>
+    
+    <!-- Surface colors for dark theme -->
+    <color name="surface">@color/dark_surface</color>
+    <color name="card_background">@color/dark_card_background</color>
+    
+    <!-- Ensure good color contrast in dark mode -->
+    <color name="clickable_text">@color/dark_primary_light</color>
+
+    <!-- Navigation Bar Colors for Dark Theme -->
+    <color name="nav_bar_background">@color/dark_surface</color>
+    <color name="nav_bar_selected_item">@color/dark_text_primary</color>
+    <color name="nav_bar_unselected_item">@color/dark_text_secondary</color>
+    <color name="nav_bar_ripple">@color/dark_ripple</color>
+    <color name="nav_bar_indicator">@color/dark_accent</color>
+</resources> 

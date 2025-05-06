@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <!-- Toolbar with back button -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/UnifiedHeaderToolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/white" />
+
+            <TextView
+                style="@style/HeaderTitle"
+                android:text="Settings" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Account Section -->
+            <TextView
+                style="@style/SectionTitle"
+                android:text="Account" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/changePasswordOption"
+                        style="@style/ProfileMenuItem"
+                        android:text="Change Password"
+                        android:drawableEnd="@drawable/ic_arrow_right"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:background="?attr/selectableItemBackground" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
+
+                    <TextView
+                        android:id="@+id/emailPreferencesOption"
+                        style="@style/ProfileMenuItem"
+                        android:text="Email Preferences"
+                        android:drawableEnd="@drawable/ic_arrow_right"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:background="?attr/selectableItemBackground" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- App Settings Section -->
+            <TextView
+                style="@style/SectionTitle"
+                android:text="App Settings" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Auto Play Videos"
+                            android:textColor="@color/primary_dark"
+                            android:textSize="16sp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/autoPlaySwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:thumbTint="@color/primary"
+                            app:trackTint="@color/primary_light" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Download Over WiFi Only"
+                            android:textColor="@color/primary_dark"
+                            android:textSize="16sp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/wifiOnlySwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:thumbTint="@color/primary"
+                            app:trackTint="@color/primary_light" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
+
+                    <TextView
+                        android:id="@+id/clearCacheOption"
+                        style="@style/ProfileMenuItem"
+                        android:text="Clear App Cache"
+                        android:drawableEnd="@drawable/ic_arrow_right"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:background="?attr/selectableItemBackground" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Save Button -->
+            <Button
+                android:id="@+id/saveButton"
+                style="@style/SettingsButton"
+                android:text="Save Changes"
+                android:layout_marginTop="24dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout> 

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base Profile Item Style -->
+    <style name="ProfileMenuItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/primary_dark</item>
+        <item name="android:background">@drawable/bg_profile_menu_item</item>
+        <item name="android:elevation">2dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
+    <!-- Section Title Style -->
+    <style name="SectionTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <!-- Divider style with improved appearance -->
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/divider</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+
+    <!-- Button Style for Settings pages -->
+    <style name="SettingsButton" parent="StandardButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="backgroundTint">@color/primary</item>
+    </style>
+    
+    <!-- Standardized Button Styles -->
+    <style name="StandardButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:minWidth">120dp</item>
+        <item name="backgroundTint">@color/primary</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:elevation">2dp</item>
+    </style>
+    
+    <!-- Text Button Style -->
+    <style name="TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minWidth">120dp</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="rippleColor">@color/ripple_light</item>
+    </style>
+    
+    <!-- Outlined Button Style -->
+    <style name="OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="strokeColor">@color/primary</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:minWidth">120dp</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+    </style>
+    
+    <!-- Small Button Style -->
+    <style name="SmallButton" parent="StandardButton">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:minWidth">80dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="cornerRadius">6dp</item>
+    </style>
+
+    <style name="Theme.AnimeRecs.FullScreenDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Bridge">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
+    <!-- DatePickerDialog theme with white buttons -->
+    <style name="DatePickerTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorAccent">@color/primary</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:windowBackground">@color/primary</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DatePickerButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DatePickerButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/DatePickerButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/DatePickerButtonStyle</item>
+        <item name="materialCalendarHeaderToggleButton">@style/DatePickerHeaderToggle</item>
+    </style>
+    
+    <style name="DatePickerButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="DatePickerHeaderToggle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <!-- Header style for page titles -->
+    <style name="HeaderTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:shadowColor">#40000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+    
+    <!-- Header container style -->
+    <style name="HeaderContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@drawable/header_background</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+    
+    <!-- Unified header toolbar style -->
+    <style name="UnifiedHeaderToolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@drawable/header_background</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+    
+    <!-- Search view style -->
+    <style name="AppSearchView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/search_background</item>
+        <item name="android:iconifiedByDefault">false</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:elevation">2dp</item>
+        <item name="queryHint">Search anime or manga...</item>
+    </style>
+    
+    <!-- Card style for items -->
+    <style name="ItemCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">3dp</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+    
+    <!-- Chip style for filters -->
+    <style name="FilterChip" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_background</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="chipMinHeight">36dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    
+    <!-- Rating bar style -->
+    <style name="RatingBar" parent="Widget.AppCompat.RatingBar.Small">
+        <item name="colorControlNormal">@color/grey</item>
+        <item name="colorControlActivated">@color/rating_color</item>
+    </style>
+    
+    <!-- Custom Navigation Bar Style -->
+    <style name="CustomBottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@drawable/bottom_nav_background</item>
+        <item name="itemIconTint">@color/bottom_nav_item_color</item>
+        <item name="itemTextColor">@color/bottom_nav_item_color</item>
+        <item name="itemRippleColor">@color/nav_bar_ripple</item>
+        <item name="itemActiveIndicatorStyle">@style/App.Custom.Indicator</item>
+        <item name="elevation">0dp</item>
+        <item name="android:paddingVertical">4dp</item>
+    </style>
+    
+    <!-- Custom indicator style for active navigation item -->
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/nav_bar_indicator</item>
+        <item name="android:width">64dp</item>
+        <item name="android:height">32dp</item>
+    </style>
+
+    <!-- Modern Bottom Navigation Style -->
+    <style name="ModernBottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@drawable/nav_bar_background</item>
+        <item name="itemIconTint">@color/nav_item_color</item>
+        <item name="itemTextColor">@color/nav_item_color</item>
+        <item name="itemRippleColor">@color/nav_bar_ripple</item>
+        <item name="itemActiveIndicatorStyle">@style/BottomNavActiveIndicator</item>
+        <item name="elevation">8dp</item>
+        <item name="labelVisibilityMode">labeled</item>
+    </style>
+    
+    <!-- Bottom Navigation Active Indicator Style -->
+    <style name="BottomNavActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/nav_bar_indicator</item>
+        <item name="android:width">64dp</item>
+        <item name="android:height">32dp</item>
+        <item name="marginHorizontal">8dp</item>
+        <item name="shapeAppearance">@style/BottomNavIndicatorShape</item>
+    </style>
+    
+    <!-- Bottom Navigation Indicator Shape -->
+    <style name="BottomNavIndicatorShape">
+        <item name="cornerSize">50%</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+</resources> 

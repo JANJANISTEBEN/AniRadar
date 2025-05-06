@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light theme color palette -->
+    <color name="light_primary_dark">#213448</color> <!-- Darkest shade -->
+    <color name="light_primary">#547792</color> <!-- Primary color -->
+    <color name="light_primary_light">#94B4C1</color> <!-- Light shade -->
+    <color name="light_background">#ECEFCA</color> <!-- Background color -->
+    <color name="light_accent">#547792</color> <!-- Using primary as accent -->
+    <color name="light_surface">#FFFFFF</color> <!-- Pure white for surfaces -->
+    <color name="light_card_background">#FFFFFF</color> <!-- White for cards -->
+    <color name="light_text_primary">#213448</color> <!-- Dark text for readability -->
+    <color name="light_text_secondary">#547792</color> <!-- Secondary text -->
+    <color name="light_divider">#94B4C1</color> <!-- Light shade for dividers -->
+</resources> 

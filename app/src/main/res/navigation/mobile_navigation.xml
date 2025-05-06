@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.animerecs.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_anime"
+        android:name="com.example.animerecs.ui.anime.AnimeFragment"
+        android:label="@string/title_anime"
+        tools:layout="@layout/fragment_anime" />
+
+    <fragment
+        android:id="@+id/navigation_manga"
+        android:name="com.example.animerecs.ui.manga.MangaFragment"
+        android:label="@string/title_manga"
+        tools:layout="@layout/fragment_manga" />
+
+    <fragment
+        android:id="@+id/navigation_bookmarks"
+        android:name="com.example.animerecs.ui.bookmarks.BookmarksFragment"
+        android:label="@string/title_bookmarks"
+        tools:layout="@layout/fragment_bookmarks" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.animerecs.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile">
+        
+        <action
+            android:id="@+id/action_navigation_profile_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        
+        <action
+            android:id="@+id/action_navigation_profile_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+        
+        <action
+            android:id="@+id/action_navigation_profile_to_themeFragment"
+            app:destination="@id/themeFragment" />
+        
+        <action
+            android:id="@+id/action_navigation_profile_to_languageFragment"
+            app:destination="@id/languageFragment" />
+        
+        <action
+            android:id="@+id/action_navigation_profile_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
+        
+        <action
+            android:id="@+id/action_navigation_profile_to_termsFragment"
+            app:destination="@id/termsFragment" />
+        
+        <action
+            android:id="@+id/action_navigation_profile_to_helpFragment"
+            app:destination="@id/helpFragment" />
+            
+        <action
+            android:id="@+id/action_navigation_profile_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
+    </fragment>
+    
+    <!-- Profile Sub-pages -->
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.animerecs.ui.profile.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+        
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.animerecs.ui.profile.NotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notifications" />
+        
+    <fragment
+        android:id="@+id/themeFragment"
+        android:name="com.example.animerecs.ui.profile.ThemeFragment"
+        android:label="Theme"
+        tools:layout="@layout/fragment_theme" />
+        
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="com.example.animerecs.ui.profile.LanguageFragment"
+        android:label="Language"
+        tools:layout="@layout/fragment_language" />
+        
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.example.animerecs.ui.profile.PrivacyPolicyFragment"
+        android:label="Privacy Policy"
+        tools:layout="@layout/fragment_privacy_policy" />
+        
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.example.animerecs.ui.profile.TermsFragment"
+        android:label="Terms of Service"
+        tools:layout="@layout/fragment_terms" />
+        
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.example.animerecs.ui.profile.HelpFragment"
+        android:label="Help &amp; Support"
+        tools:layout="@layout/fragment_help" />
+        
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.animerecs.ui.authentication.LoginFragment"
+        android:label="Login" 
+        tools:layout="@layout/fragment_login" />
+</navigation> 

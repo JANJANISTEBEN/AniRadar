@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AniRadar</string>
+    <string name="app_title">AniRadar</string>
+    <string name="app_tagline">.</string>
+    
+    <!-- Login Screen -->
+    <string name="login_label">Login</string>
+    <string name="login_description">Welcome back! Sign in to continue exploring anime recommendations tailored just for you.</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_with_google">Login with Google</string>
+    <string name="or">OR</string>
+    <string name="no_account">Don\'t have an account? </string>
+    <string name="sign_up_here">Sign up here</string>
+    <string name="forgot_password_text">Forgot password?</string>
+    
+    <!-- Signup Screen -->
+    <string name="signup_label">Sign Up</string>
+    <string name="signup_description">.</string>
+    <string name="name_hint">Full Name</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="birthday_hint">Birthday</string>
+    <string name="register_button">Register</string>
+    <string name="already_have_account">Already have an account? </string>
+    <string name="login_here">Login here</string>
+    
+    <!-- Forgot Password Screen -->
+    <string name="forgot_password_label">Forgot Password</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="forgot_password_description">Enter your email address below and we\'ll send you instructions to reset your password.</string>
+    <string name="send_reset_button">Send Reset Link</string>
+    <string name="back_to_login">Back to Login</string>
+    
+    <!-- Navigation Titles -->
+    <string name="title_home">Home</string>
+    <string name="title_anime">Anime</string>
+    <string name="title_manga">Manga</string>
+    <string name="title_bookmarks">Bookmarks</string>
+    <string name="title_profile">Profile</string>
+    
+    <!-- Profile Page -->
+    <string name="profile_title">My Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="settings">Settings</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="help_support">Help &amp; Support</string>
+    <string name="logout">Logout</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="preferences">Preferences</string>
+    <string name="about">About</string>
+    
+    <!-- Detail Screen Common -->
+    <string name="score_label">Score</string>
+    <string name="type_label">Type</string>
+    <string name="genres_label">Genres</string>
+    <string name="synopsis_label">Synopsis</string>
+    <string name="user_preferences">Your Preferences</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="unbookmark">Remove Bookmark</string>
+    <string name="recommend_more">Recommend Similar</string>
+    <string name="share">Share</string>
+    
+    <!-- Anime Detail Screen -->
+    <string name="anime_detail_title">Anime Details</string>
+    <string name="episodes_label">Episodes</string>
+    <string name="aired_label">Aired</string>
+    <string name="like_anime">Like</string>
+    <string name="dislike_anime">Dislike</string>
+    <string name="watched_anime">Watched</string>
+    <string name="watch_later_anime">Watch Later</string>
+    <string name="share_anime_text">Check out this anime: %1$s on AniRadar!</string>
+    <string name="add_bookmark">Add to Bookmarks</string>
+    <string name="remove_bookmark">Remove Bookmark</string>
+    
+    <!-- Manga Detail Screen -->
+    <string name="manga_detail_title">Manga Details</string>
+    <string name="volumes_label">Volumes</string>
+    <string name="chapters_label">Chapters</string>
+    <string name="published_label">Published</string>
+    <string name="like_manga">Like</string>
+    <string name="dislike_manga">Dislike</string>
+    <string name="read_manga">Read</string>
+    <string name="read_later_manga">Read Later</string>
+    <string name="share_manga_text">Check out this manga: %1$s on AniRadar!</string>
+    
+    <!-- Error Messages -->
+    <string name="error_loading_details">Error loading details. Please try again.</string>
+    <string name="error_saving_preference">Error saving your preference. Please try again.</string>
+    <string name="error_saving_bookmark">Error saving bookmark. Please try again.</string>
+    <string name="login_required">You need to be logged in to use this feature.</string>
+    
+    <!-- Detail Screens -->
+    <string name="anime_details">Anime Details</string>
+    <string name="manga_details">Manga Details</string>
+    
+    <!-- Buttons -->
+    <string name="recommend_similar">Recommend Similar</string>
+    
+    <!-- Preferences -->
+    <string name="likes">Like</string>
+    <string name="dislikes">Dislike</string>
+    <string name="watched">Watched</string>
+    <string name="watch_later">Watch Later</string>
+    <string name="read">Read</string>
+    <string name="read_later">Read Later</string>
+    
+    <!-- Misc -->
+    <string name="show_more">Show More</string>
+    <string name="search_hint">Search…</string>
+    <string name="search_anime">Search Anime</string>
+    <string name="search_manga">Search Manga</string>
+    <string name="no_results">No results found</string>
+    <string name="no_results_found">No results found for your filter criteria</string>
+    <string name="no_bookmarks">No bookmarks found</string>
+    <string name="filter">Filter</string>
+</resources>

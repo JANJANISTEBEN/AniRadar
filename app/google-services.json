@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "799506047681",
+    "project_id": "animerecs",
+    "storage_bucket": "animerecs.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799506047681:android:a9015fb4f30095f910ea40",
+        "android_client_info": {
+          "package_name": "com.example.animerecs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799506047681-fopau76avhr90rmp0hbk2stjaomeai2i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.animerecs",
+            "certificate_hash": "f8c441705454e5f88c177873a84f0bf3fbe75f50"
+          }
+        },
+        {
+          "client_id": "799506047681-t14ethsnt2nqurikpqnv7td7ku5c8khi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxlTEJb1lCtmn9ujlTsoFI3MnkgEltQS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799506047681-t14ethsnt2nqurikpqnv7td7ku5c8khi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

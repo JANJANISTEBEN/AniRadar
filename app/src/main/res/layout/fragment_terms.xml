@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <!-- Toolbar with back button -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/UnifiedHeaderToolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/white" />
+
+            <TextView
+                style="@style/HeaderTitle"
+                android:text="Terms of Service" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Terms of Service Section -->
+            <TextView
+                style="@style/SectionTitle"
+                android:text="Terms of Service"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                style="@style/ItemCard"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Last Updated: May 24, 2023"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="16dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="1. Agreement to Terms"
+                        android:textColor="@color/primary_dark"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="By accessing or using AnimeRecs, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using this app."
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="16dp" />
+
+                    <View style="@style/Divider" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="2. Use License"
+                        android:textColor="@color/primary_dark"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Permission is granted to temporarily download and use the app for personal, non-commercial purposes. This license does not include:\n\n• Modifying or copying the materials\n• Using the materials for any commercial purpose\n• Attempting to decompile or reverse engineer any software contained in the app\n• Removing any copyright or other proprietary notations from the materials"
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="16dp" />
+
+                    <View style="@style/Divider" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="3. User Account"
+                        android:textColor="@color/primary_dark"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="To use certain features of the app, you may be required to create an account. You are responsible for maintaining the confidentiality of your account and password and for restricting access to your device. You agree to accept responsibility for all activities that occur under your account."
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="16dp" />
+
+                    <View style="@style/Divider" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="4. Content Guidelines"
+                        android:textColor="@color/primary_dark"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Users must not upload, share, or otherwise transmit any content that:\n\n• Is unlawful, harmful, or offensive\n• Infringes on any patent, trademark, or copyright\n• Contains malware, viruses, or other malicious code\n• Impersonates any person or entity\n\nAnimeRecs reserves the right to remove any content deemed inappropriate at our sole discretion."
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="16dp" />
+
+                    <View style="@style/Divider" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="5. Termination"
+                        android:textColor="@color/primary_dark"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="We may terminate or suspend your account and access to the app immediately, without prior notice, for conduct that we believe violates these Terms of Service or is harmful to other users of the app, us, or third parties, or for any other reason at our sole discretion."
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="16dp" />
+
+                    <View style="@style/Divider" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="6. Limitation of Liability"
+                        android:textColor="@color/primary_dark"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="In no event shall AnimeRecs be liable for any damages arising out of the use or inability to use the app, even if we have been notified of the possibility of such damages."
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="16dp" />
+
+                    <View style="@style/Divider" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="7. Changes to Terms"
+                        android:textColor="@color/primary_dark"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="AnimeRecs may revise these Terms of Service at any time without notice. By using this app, you are agreeing to be bound by the current version of these Terms of Service."
+                        android:textColor="@color/primary_text"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout> 
