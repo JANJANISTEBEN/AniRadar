@@ -101,7 +101,7 @@
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="?attr/colorAccent"
+                android:textColor="?attr/textColorPrimary"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>

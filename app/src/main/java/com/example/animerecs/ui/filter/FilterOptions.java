@@ -11,6 +11,7 @@ public class FilterOptions {
     private String status;
     private String orderBy;
     private String sort;
+    private String season;
     private Float minScore;
     private Float maxScore;
     private List<Integer> genreIds;
@@ -28,6 +29,7 @@ public class FilterOptions {
         return (type != null && !type.isEmpty()) ||
                (status != null && !status.isEmpty()) ||
                (orderBy != null && !orderBy.isEmpty()) ||
+               (season != null && !season.isEmpty()) ||
                (minScore > 0f) ||
                (maxScore < 10f) ||
                (genreIds != null && !genreIds.isEmpty());
@@ -107,5 +109,13 @@ public class FilterOptions {
     
     public void setGenreIds(List<Integer> genreIds) {
         this.genreIds = genreIds;
+    }
+    
+    public String getSeason() {
+        return season;
+    }
+    
+    public void setSeason(String season) {
+        this.season = season;
     }
 } 

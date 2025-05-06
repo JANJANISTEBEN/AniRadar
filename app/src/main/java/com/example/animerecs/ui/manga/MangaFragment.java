@@ -78,9 +78,11 @@ public class MangaFragment extends Fragment implements MangaAdapter.OnMangaClick
         clearFiltersButton = binding.clearFiltersButton;
         
         // Set up RecyclerView
-        adapter = new MangaAdapter(getContext(), new ArrayList<>(), this);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        int spanCount = 2; // Show 2 items per row
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, 16, true));
+        adapter = new MangaAdapter(getContext(), new ArrayList<>(), this);
         recyclerView.setAdapter(adapter);
         
         // Set up scroll listener for pagination
@@ -156,7 +158,6 @@ public class MangaFragment extends Fragment implements MangaAdapter.OnMangaClick
     
     private void showFilterDialog() {
         FilterDialog dialog = new FilterDialog(getContext(), FilterDialog.CONTENT_TYPE_MANGA, options -> viewModel.setActiveFilters(options));
-        dialog.setTitle(getString(R.string.filter_manga));
         
         // Set current filters if available
         if (viewModel.hasActiveFilters()) {

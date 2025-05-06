@@ -1,208 +1,247 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/background">
+    app:cardCornerRadius="0dp"
+    app:cardElevation="8dp">
 
-    <TextView
-        android:id="@+id/filter_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/filter"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/primary"
-        android:gravity="center"
-        android:layout_marginBottom="16dp" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Type -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Type"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary_dark"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp" />
-
-            <Spinner
-                android:id="@+id/type_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:background="@drawable/spinner_background"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Status -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Status"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary_dark"
-                android:layout_marginBottom="4dp" />
-
-            <Spinner
-                android:id="@+id/status_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:background="@drawable/spinner_background"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Score Range -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Score Range"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary_dark"
-                android:layout_marginBottom="4dp" />
-
-            <com.google.android.material.slider.RangeSlider
-                android:id="@+id/score_range_slider"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:valueFrom="0.0"
-                android:valueTo="10.0"
-                app:values="@array/initial_slider_values"
-                android:stepSize="0.5"
-                app:trackColorInactive="@color/grey"
-                app:trackColorActive="@color/primary"
-                app:thumbColor="@color/primary"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Order By -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Order By"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary_dark"
-                android:layout_marginBottom="4dp" />
-
-            <Spinner
-                android:id="@+id/order_by_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:background="@drawable/spinner_background"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Sort Order -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sort Order"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary_dark"
-                android:layout_marginBottom="4dp" />
-
-            <Spinner
-                android:id="@+id/sort_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:background="@drawable/spinner_background"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Genres -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Genres"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary_dark"
-                android:layout_marginBottom="8dp" />
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/genres_chip_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:chipSpacingHorizontal="8dp"
-                app:chipSpacingVertical="8dp"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Season (Anime Only) -->
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/anime_only_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:constraint_referenced_ids="season_label,season_spinner" />
-
-            <TextView
-                android:id="@+id/season_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Season"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary_dark"
-                android:layout_marginBottom="4dp" />
-
-            <Spinner
-                android:id="@+id/season_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:background="@drawable/spinner_background"
-                android:layout_marginBottom="16dp" />
-
-        </LinearLayout>
-    </ScrollView>
-
-    <!-- Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:layout_marginTop="16dp">
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="?attr/cardBackgroundColor">
 
-        <Button
-            android:id="@+id/cancel_button"
-            style="@style/TextButton"
-            android:layout_width="wrap_content"
+        <!-- Header with X and Reset buttons -->
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:minWidth="0dp"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/reset_button"
-            style="@style/OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reset"
-            android:minWidth="0dp"
-            android:layout_marginEnd="8dp" />
+            <ImageButton
+                android:id="@+id/cancel_button"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:tint="?attr/textColorPrimary"
+                android:contentDescription="@string/cancel" />
 
+            <Button
+                android:id="@+id/reset_button"
+                style="@style/TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="@string/reset"
+                android:textColor="?attr/colorAccent"
+                android:textSize="14sp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingVertical="4dp" />
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Type Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/type"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textColorPrimary"
+                        android:layout_marginBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/type_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:background="@drawable/spinner_background" />
+                </LinearLayout>
+
+                <!-- Status Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/status"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textColorPrimary"
+                        android:layout_marginBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/status_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:background="@drawable/spinner_background" />
+                </LinearLayout>
+
+                <!-- Score Range Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/score_range"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textColorPrimary"
+                        android:layout_marginBottom="8dp" />
+
+                    <com.google.android.material.slider.RangeSlider
+                        android:id="@+id/score_range_slider"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:valueFrom="0.0"
+                        android:valueTo="10.0"
+                        app:values="@array/initial_slider_values"
+                        android:stepSize="0.5"
+                        app:trackColorInactive="@color/grey"
+                        app:trackColorActive="?attr/colorAccent"
+                        app:thumbColor="?attr/colorAccent" />
+                </LinearLayout>
+
+                <!-- Order By Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/order_by"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textColorPrimary"
+                        android:layout_marginBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/order_by_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:background="@drawable/spinner_background" />
+                </LinearLayout>
+
+                <!-- Sort Order Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sort_order"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textColorPrimary"
+                        android:layout_marginBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/sort_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:background="@drawable/spinner_background" />
+                </LinearLayout>
+
+                <!-- Genres Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/genres"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textColorPrimary"
+                        android:layout_marginBottom="8dp" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/genres_chip_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:chipSpacingHorizontal="8dp"
+                        app:chipSpacingVertical="8dp" />
+                </LinearLayout>
+
+                <!-- Season (Anime Only) -->
+                <LinearLayout
+                    android:id="@+id/season_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="20dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/season_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/season"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/textColorPrimary"
+                        android:layout_marginBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/season_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:background="@drawable/spinner_background" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- Apply Button at Bottom -->
         <Button
             android:id="@+id/apply_button"
             style="@style/StandardButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Apply" 
-            android:minWidth="0dp" />
+            android:text="@string/apply"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:layout_marginTop="20dp" />
     </LinearLayout>
-</LinearLayout> 
+</androidx.cardview.widget.CardView> 

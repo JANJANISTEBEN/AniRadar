@@ -118,8 +118,8 @@
     <string name="filter">Filter</string>
     <string name="filter_anime">Filter Anime</string>
     <string name="filter_manga">Filter Manga</string>
-    <string name="apply_filters">Apply</string>
-    <string name="reset_filters">Reset</string>
+    <string name="apply">Apply</string>
+    <string name="reset">Reset</string>
     <string name="active_filters">Active Filters</string>
     <string name="error_loading_data">Failed to load data. Please try again.</string>
     <string name="retry">Retry</string>
@@ -129,4 +129,12 @@
     <string name="manga_image">Manga Image</string>
     <string name="bookmark_added">Added to bookmarks</string>
     <string name="bookmark_removed">Removed from bookmarks</string>
+    <string name="type">Type</string>
+    <string name="status">Status</string>
+    <string name="score_range">Score Range</string>
+    <string name="order_by">Order By</string>
+    <string name="sort_order">Sort Order</string>
+    <string name="genres">Genres</string>
+    <string name="season">Season</string>
+    <string name="cancel">Cancel</string>
 </resources>

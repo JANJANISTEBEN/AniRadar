@@ -76,7 +76,7 @@
             android:layout_marginStart="4dp"
             android:minWidth="0dp"
             android:minHeight="0dp"
-            android:text="@string/reset_filters"
+            android:text="@string/reset"
             android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/activeFiltersText"

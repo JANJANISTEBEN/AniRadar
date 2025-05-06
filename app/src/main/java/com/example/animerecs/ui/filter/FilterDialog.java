@@ -9,6 +9,7 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -44,8 +45,11 @@ public class FilterDialog extends Dialog {
     private Spinner sortSpinner;
     private RangeSlider scoreRangeSlider;
     private ChipGroup genresChipGroup;
-    private TextView titleTextView;
-    private Group animeOnlyGroup;
+    private View seasonContainer;
+    private Spinner seasonSpinner;
+    private ImageButton cancelButton;
+    private Button resetButton;
+    private Button applyButton;
     
     // Filter data
     private Map<String, String> animeTypes = new HashMap<>();
@@ -54,6 +58,7 @@ public class FilterDialog extends Dialog {
     private Map<String, String> mangaStatuses = new HashMap<>();
     private Map<String, String> orderByOptions = new HashMap<>();
     private Map<String, String> sortOptions = new HashMap<>();
+    private Map<String, String> seasons = new HashMap<>();
     private Map<Integer, String> genres = new HashMap<>();
     private List<Integer> selectedGenreIds = new ArrayList<>();
 
@@ -74,33 +79,32 @@ public class FilterDialog extends Dialog {
         setContentView(R.layout.dialog_filter);
         
         // Initialize UI elements
-        titleTextView = findViewById(R.id.filter_title);
         typeSpinner = findViewById(R.id.type_spinner);
         statusSpinner = findViewById(R.id.status_spinner);
         orderBySpinner = findViewById(R.id.order_by_spinner);
         sortSpinner = findViewById(R.id.sort_spinner);
         scoreRangeSlider = findViewById(R.id.score_range_slider);
         genresChipGroup = findViewById(R.id.genres_chip_group);
-        animeOnlyGroup = findViewById(R.id.anime_only_group);
+        seasonContainer = findViewById(R.id.season_container);
+        seasonSpinner = findViewById(R.id.season_spinner);
         
-        Button applyButton = findViewById(R.id.apply_button);
-        Button resetButton = findViewById(R.id.reset_button);
-        Button cancelButton = findViewById(R.id.cancel_button);
+        applyButton = findViewById(R.id.apply_button);
+        resetButton = findViewById(R.id.reset_button);
+        cancelButton = findViewById(R.id.cancel_button);
         
         // Set up data
         setupFilterData();
         
         // Configure the dialog based on content type
         if (CONTENT_TYPE_ANIME.equals(contentType)) {
-            titleTextView.setText(R.string.filter_anime);
             setupSpinner(typeSpinner, animeTypes);
             setupSpinner(statusSpinner, animeStatuses);
-            animeOnlyGroup.setVisibility(View.VISIBLE);
+            setupSpinner(seasonSpinner, seasons);
+            seasonContainer.setVisibility(View.VISIBLE);
         } else {
-            titleTextView.setText(R.string.filter_manga);
             setupSpinner(typeSpinner, mangaTypes);
             setupSpinner(statusSpinner, mangaStatuses);
-            animeOnlyGroup.setVisibility(View.GONE);
+            seasonContainer.setVisibility(View.GONE);
         }
         
         setupSpinner(orderBySpinner, orderByOptions);
@@ -153,6 +157,13 @@ public class FilterDialog extends Dialog {
         mangaStatuses.put("Hiatus", "hiatus");
         mangaStatuses.put("Discontinued", "discontinued");
         mangaStatuses.put("Upcoming", "upcoming");
+        
+        // Season options
+        seasons.put("Any", "");
+        seasons.put("Winter", "winter");
+        seasons.put("Spring", "spring");
+        seasons.put("Summer", "summer");
+        seasons.put("Fall", "fall");
         
         // Order by options
         orderByOptions.put("Default", "");
@@ -224,6 +235,11 @@ public class FilterDialog extends Dialog {
         orderBySpinner.setSelection(0);
         sortSpinner.setSelection(0);
         scoreRangeSlider.setValues(0f, 10f);
+        
+        if (CONTENT_TYPE_ANIME.equals(contentType)) {
+            seasonSpinner.setSelection(0);
+        }
+        
         selectedGenreIds.clear();
         
         for (int i = 0; i < genresChipGroup.getChildCount(); i++) {
@@ -248,6 +264,12 @@ public class FilterDialog extends Dialog {
         options.setOrderBy(orderByOptions.get(orderByKey));
         options.setSort(sortOptions.get(sortKey));
         
+        // Set season for anime only
+        if (CONTENT_TYPE_ANIME.equals(contentType)) {
+            String seasonKey = (String) seasonSpinner.getSelectedItem();
+            options.setSeason(seasons.get(seasonKey));
+        }
+        
         List<Float> scoreValues = scoreRangeSlider.getValues();
         options.setMinScore(scoreValues.get(0));
         options.setMaxScore(scoreValues.get(1));
@@ -260,25 +282,31 @@ public class FilterDialog extends Dialog {
     public void setFilterOptions(FilterOptions options) {
         if (options == null) return;
         
-        // Set spinners
-        if (options.getType() != null && !options.getType().isEmpty()) {
+        // Only set spinner values if they are initialized
+        if (typeSpinner != null && options.getType() != null && !options.getType().isEmpty()) {
             setSpinnerFromValue(typeSpinner, CONTENT_TYPE_ANIME.equals(contentType) ? animeTypes : mangaTypes, options.getType());
         }
         
-        if (options.getStatus() != null && !options.getStatus().isEmpty()) {
+        if (statusSpinner != null && options.getStatus() != null && !options.getStatus().isEmpty()) {
             setSpinnerFromValue(statusSpinner, CONTENT_TYPE_ANIME.equals(contentType) ? animeStatuses : mangaStatuses, options.getStatus());
         }
         
-        if (options.getOrderBy() != null && !options.getOrderBy().isEmpty()) {
+        if (orderBySpinner != null && options.getOrderBy() != null && !options.getOrderBy().isEmpty()) {
             setSpinnerFromValue(orderBySpinner, orderByOptions, options.getOrderBy());
         }
         
-        if (options.getSort() != null && !options.getSort().isEmpty()) {
+        if (sortSpinner != null && options.getSort() != null && !options.getSort().isEmpty()) {
             setSpinnerFromValue(sortSpinner, sortOptions, options.getSort());
         }
         
+        // Set season for anime
+        if (CONTENT_TYPE_ANIME.equals(contentType) && seasonSpinner != null && 
+            options.getSeason() != null && !options.getSeason().isEmpty()) {
+            setSpinnerFromValue(seasonSpinner, seasons, options.getSeason());
+        }
+        
         // Set score range
-        if (options.getMinScore() != null && options.getMaxScore() != null) {
+        if (scoreRangeSlider != null && options.getMinScore() != null && options.getMaxScore() != null) {
             scoreRangeSlider.setValues(options.getMinScore(), options.getMaxScore());
         }
         
@@ -288,11 +316,15 @@ public class FilterDialog extends Dialog {
             selectedGenreIds.addAll(options.getGenreIds());
         }
         
-        // Refresh UI
-        setupGenreChips();
+        // Only refresh UI if the dialog is showing
+        if (isShowing() && genresChipGroup != null) {
+            setupGenreChips();
+        }
     }
     
     private void setSpinnerFromValue(Spinner spinner, Map<String, String> dataMap, String value) {
+        if (spinner == null || spinner.getAdapter() == null) return;
+        
         for (int i = 0; i < spinner.getAdapter().getCount(); i++) {
             String key = (String) spinner.getAdapter().getItem(i);
             if (value.equals(dataMap.get(key))) {

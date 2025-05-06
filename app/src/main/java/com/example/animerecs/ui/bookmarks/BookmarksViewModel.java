@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.animerecs.data.BookmarkRepository;
 import com.example.animerecs.model.Bookmark;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -53,7 +55,51 @@ public class BookmarksViewModel extends ViewModel {
     public void refreshBookmarks() {
         isLoading.setValue(true);
         isError.setValue(false);
-        // Refresh data
+        
+        String userId = repository.getCurrentUserId();
+        if (userId == null) {
+            isLoading.setValue(false);
+            errorMessage.setValue("Please log in to view bookmarks");
+            return;
+        }
+        
+        // Load anime bookmarks
+        repository.getBookmarksCollection()
+                .whereEqualTo("type", Bookmark.TYPE_ANIME)
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Bookmark> bookmarks = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        Bookmark bookmark = document.toObject(Bookmark.class);
+                        bookmarks.add(bookmark);
+                    }
+                    animeBookmarks.setValue(bookmarks);
+                })
+                .addOnFailureListener(e -> {
+                    isError.setValue(true);
+                    errorMessage.setValue("Failed to load anime bookmarks");
+                });
+        
+        // Load manga bookmarks
+        repository.getBookmarksCollection()
+                .whereEqualTo("type", Bookmark.TYPE_MANGA)
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Bookmark> bookmarks = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        Bookmark bookmark = document.toObject(Bookmark.class);
+                        bookmarks.add(bookmark);
+                    }
+                    mangaBookmarks.setValue(bookmarks);
+                    isLoading.setValue(false);
+                })
+                .addOnFailureListener(e -> {
+                    isError.setValue(true);
+                    errorMessage.setValue("Failed to load manga bookmarks");
+                    isLoading.setValue(false);
+                });
     }
     
     // Method to add bookmark
@@ -75,11 +121,7 @@ public class BookmarksViewModel extends ViewModel {
     }
     
     // Method to check if item is bookmarked
-    public void checkIfBookmarked(String id, String type, BookmarkRepository.BookmarkCheckCallback callback) {
+    public void checkIfBookmarked(String id, String type, Consumer<Boolean> callback) {
         repository.checkIfBookmarked(id, type, callback);
-    }
-    
-    public void checkIfBookmarked(String itemId, String type, Consumer<Boolean> callback) {
-        repository.checkIfBookmarked(itemId, type, callback);
     }
 } 

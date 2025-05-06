@@ -2,109 +2,113 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ItemCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
     app:cardBackgroundColor="?attr/cardBackgroundColor">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="8dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/manga_image"
-                android:layout_width="120dp"
-                android:layout_height="180dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="Manga Cover Image" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <TextView
-                    android:id="@+id/manga_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textColor="?attr/textColorPrimary"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/manga_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textColor="?attr/textColorSecondary"
-                    android:textSize="14sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/manga_score"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@android:drawable/btn_star_big_on"
-                        android:drawablePadding="4dp"
-                        android:drawableTint="@android:color/holo_orange_light"
-                        android:gravity="center_vertical"
-                        android:textColor="?attr/textColorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/manga_volumes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:textColor="?attr/textColorSecondary"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/manga_synopsis"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:ellipsize="end"
-                    android:maxLines="3"
-                    android:textColor="?attr/textColorSecondary"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/manga_genres"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="?attr/colorAccent"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Bookmark icon in top-right corner -->
         <ImageView
-            android:id="@+id/manga_bookmark"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:padding="8dp"
+            android:id="@+id/manga_image"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/manga_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/manga_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/btn_bookmark"
+            app:layout_constraintStart_toEndOf="@+id/manga_image"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btn_bookmark"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_bookmark_border"
-            app:tint="?attr/colorAccent"
-            android:contentDescription="Bookmark manga" />
-    </RelativeLayout>
+            app:tint="@color/colorAccent"
+            android:contentDescription="@string/bookmark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/manga_title" />
+
+        <TextView
+            android:id="@+id/manga_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="?attr/textColorSecondary"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/manga_title"
+            app:layout_constraintTop_toBottomOf="@+id/manga_title" />
+
+        <TextView
+            android:id="@+id/manga_volumes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="?attr/textColorSecondary"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/manga_type"
+            app:layout_constraintTop_toTopOf="@+id/manga_type" />
+
+        <TextView
+            android:id="@+id/manga_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_star"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/manga_title"
+            app:layout_constraintTop_toBottomOf="@+id/manga_type" />
+
+        <TextView
+            android:id="@+id/manga_genres"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="?attr/textColorSecondary"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/manga_title"
+            app:layout_constraintTop_toBottomOf="@+id/manga_score" />
+
+        <TextView
+            android:id="@+id/manga_synopsis"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="?attr/textColorSecondary"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/manga_title"
+            app:layout_constraintTop_toBottomOf="@+id/manga_genres" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView> 

@@ -127,7 +127,7 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.MangaViewHol
             volumes = itemView.findViewById(R.id.manga_volumes);
             score = itemView.findViewById(R.id.manga_score);
             genres = itemView.findViewById(R.id.manga_genres);
-            bookmarkIcon = itemView.findViewById(R.id.manga_bookmark);
+            bookmarkIcon = itemView.findViewById(R.id   .btn_bookmark);
         }
     }
 } 

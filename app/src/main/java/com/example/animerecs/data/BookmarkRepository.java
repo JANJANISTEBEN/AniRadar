@@ -1,54 +1,86 @@
 package com.example.animerecs.data;
 
 import androidx.lifecycle.LiveData;
-import java.util.List;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.animerecs.model.Bookmark;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class BookmarkRepository {
     
-    // Interface for bookmark check callback
-    public interface BookmarkCheckCallback {
-        void onResult(boolean isBookmarked);
-    }
-    
-    private LiveData<List<Bookmark>> allBookmarks;
+    private final FirebaseFirestore db;
+    private final MutableLiveData<List<Bookmark>> allBookmarks;
     
     public BookmarkRepository() {
-        // Initialize database or API connection
+        db = FirebaseFirestore.getInstance();
+        allBookmarks = new MutableLiveData<>();
     }
     
     public LiveData<List<Bookmark>> getAllBookmarks() {
         return allBookmarks;
     }
     
+    public String getCurrentUserId() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        return user != null ? user.getUid() : null;
+    }
+    
+    public CollectionReference getBookmarksCollection() {
+        return db.collection("bookmarks");
+    }
+    
     public void addToBookmarks(Bookmark bookmark) {
-        // Add bookmark logic
+        String userId = getCurrentUserId();
+        if (userId == null) return;
+        
+        bookmark.setUserId(userId);
+        getBookmarksCollection().add(bookmark);
     }
     
     public void removeFromBookmarks(String itemId, String type) {
-        // Remove bookmark logic
+        String userId = getCurrentUserId();
+        if (userId == null) return;
+        
+        getBookmarksCollection()
+                .whereEqualTo("itemId", itemId)
+                .whereEqualTo("type", type)
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    for (var doc : querySnapshot.getDocuments()) {
+                        doc.getReference().delete();
+                    }
+                });
     }
     
     public void insert(Bookmark bookmark) {
-        // Insert bookmark
+        addToBookmarks(bookmark);
     }
     
     public void delete(Bookmark bookmark) {
-        // Delete bookmark
+        removeFromBookmarks(bookmark.getItemId(), bookmark.getType());
     }
     
-    public void deleteById(int id, String type) {
-        // Delete by ID and type
-    }
-    
-    public void checkIfBookmarked(String itemId, String type, BookmarkCheckCallback callback) {
-        // Check if item is bookmarked
-        // callback.onResult(isBookmarked);
-    }
-    
-    public void checkIfBookmarked(String itemId, String type, java.util.function.Consumer<Boolean> callback) {
-        // For compatibility with Consumer interface, we use a lambda that won't cause ambiguity
-        BookmarkCheckCallback internalCallback = isBookmarked -> callback.accept(isBookmarked);
-        checkIfBookmarked(itemId, type, internalCallback);
+    public void checkIfBookmarked(String itemId, String type, Consumer<Boolean> callback) {
+        String userId = getCurrentUserId();
+        if (userId == null) {
+            callback.accept(false);
+            return;
+        }
+        
+        getBookmarksCollection()
+                .whereEqualTo("itemId", itemId)
+                .whereEqualTo("type", type)
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(querySnapshot -> callback.accept(!querySnapshot.isEmpty()))
+                .addOnFailureListener(e -> callback.accept(false));
     }
 } 

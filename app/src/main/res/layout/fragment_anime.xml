@@ -76,7 +76,7 @@
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:paddingVertical="4dp"
-            android:text="Clear"
+            android:text="@string/reset"
             android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/activeFiltersText"
@@ -145,7 +145,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Unable to load content"
+            android:text="@string/error_loading_data"
             android:textColor="@color/primary_dark"
             android:textSize="18sp"
             android:layout_marginBottom="16dp" />
@@ -157,6 +157,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:text="Retry" />
+            android:text="@string/retry" />
     </LinearLayout>
 </LinearLayout> 
