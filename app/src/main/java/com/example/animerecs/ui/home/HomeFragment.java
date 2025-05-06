@@ -201,67 +201,67 @@ public class HomeFragment extends Fragment implements RecommendationAdapter.OnRe
     
     @Override
     public void onItemClick(Object item) {
+        // Handle item click based on type
         if (item instanceof AnimeData) {
             AnimeData anime = (AnimeData) item;
-            startActivity(AnimeDetailActivity.newIntent(getContext(), String.valueOf(anime.getId())));
+            startActivity(AnimeDetailActivity.newIntent(getContext(), anime.getMalId()));
         } else if (item instanceof MangaData) {
             MangaData manga = (MangaData) item;
-            startActivity(MangaDetailActivity.newIntent(getContext(), String.valueOf(manga.getId())));
+            startActivity(MangaDetailActivity.newIntent(getContext(), manga.getMalId()));
         }
     }
     
     @Override
     public void onBookmarkClick(Object item, boolean isCurrentlyBookmarked) {
+        // Handle bookmark click based on type
+        if (item instanceof AnimeData) {
+            handleAnimeBookmarkClick((AnimeData) item, isCurrentlyBookmarked);
+        } else if (item instanceof MangaData) {
+            handleMangaBookmarkClick((MangaData) item, isCurrentlyBookmarked);
+        }
+    }
+    
+    private void handleAnimeBookmarkClick(AnimeData anime, boolean isCurrentlyBookmarked) {
         BookmarkRepository bookmarkRepository = new BookmarkRepository();
         
-        if (item instanceof AnimeData) {
-            AnimeData anime = (AnimeData) item;
-            
-            if (isCurrentlyBookmarked) {
-                // Remove bookmark
-                bookmarkRepository.deleteById(anime.getId(), "anime");
-                Toast.makeText(getContext(), "Removed from bookmarks", Toast.LENGTH_SHORT).show();
-            } else {
-                // Add bookmark
-                Bookmark bookmark = new Bookmark(
-                        anime.getId(),
-                        anime.getTitle(),
-                        anime.getImageUrl(),
-                        "anime",
-                        (float) anime.getScore(),
-                        anime.getSynopsis(),
-                        anime.getStatus(),
-                        anime.getUrl(),
-                        null // userId will be set in repository
-                );
-                
-                bookmarksViewModel.insert(bookmark);
-                Toast.makeText(getContext(), "Added to bookmarks", Toast.LENGTH_SHORT).show();
-            }
-        } else if (item instanceof MangaData) {
-            MangaData manga = (MangaData) item;
-            
-            if (isCurrentlyBookmarked) {
-                // Remove bookmark
-                bookmarkRepository.deleteById(manga.getId(), "manga");
-                Toast.makeText(getContext(), "Removed from bookmarks", Toast.LENGTH_SHORT).show();
-            } else {
-                // Add bookmark
-                Bookmark bookmark = new Bookmark(
-                        manga.getId(),
-                        manga.getTitle(),
-                        manga.getImageUrl(),
-                        "manga",
-                        (float) manga.getScore(),
-                        manga.getSynopsis(),
-                        manga.getStatus(),
-                        manga.getUrl(),
-                        null // userId will be set in repository
-                );
-                
-                bookmarksViewModel.insert(bookmark);
-                Toast.makeText(getContext(), "Added to bookmarks", Toast.LENGTH_SHORT).show();
-            }
+        if (isCurrentlyBookmarked) {
+            // Remove from bookmarks
+            bookmarkRepository.removeFromBookmarks(anime.getMalId(), Bookmark.TYPE_ANIME);
+            Toast.makeText(getContext(), getString(R.string.bookmark_removed), Toast.LENGTH_SHORT).show();
+        } else {
+            // Add to bookmarks
+            Bookmark bookmark = new Bookmark();
+            bookmark.setItemId(anime.getMalId());
+            bookmark.setTitle(anime.getTitle());
+            bookmark.setImageUrl(anime.getImages().getJpg().getLargeImageUrl());
+            bookmark.setType(Bookmark.TYPE_ANIME);
+            bookmarkRepository.addToBookmarks(bookmark);
+            Toast.makeText(getContext(), getString(R.string.bookmark_added), Toast.LENGTH_SHORT).show();
         }
+        
+        // Refresh bookmarks
+        bookmarksViewModel.refreshBookmarks();
+    }
+    
+    private void handleMangaBookmarkClick(MangaData manga, boolean isCurrentlyBookmarked) {
+        BookmarkRepository bookmarkRepository = new BookmarkRepository();
+        
+        if (isCurrentlyBookmarked) {
+            // Remove from bookmarks
+            bookmarkRepository.removeFromBookmarks(manga.getMalId(), Bookmark.TYPE_MANGA);
+            Toast.makeText(getContext(), getString(R.string.bookmark_removed), Toast.LENGTH_SHORT).show();
+        } else {
+            // Add to bookmarks
+            Bookmark bookmark = new Bookmark();
+            bookmark.setItemId(manga.getMalId());
+            bookmark.setTitle(manga.getTitle());
+            bookmark.setImageUrl(manga.getImages().getJpg().getLargeImageUrl());
+            bookmark.setType(Bookmark.TYPE_MANGA);
+            bookmarkRepository.addToBookmarks(bookmark);
+            Toast.makeText(getContext(), getString(R.string.bookmark_added), Toast.LENGTH_SHORT).show();
+        }
+        
+        // Refresh bookmarks
+        bookmarksViewModel.refreshBookmarks();
     }
 } 

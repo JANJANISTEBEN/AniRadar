@@ -325,11 +325,11 @@ public class MangaDetailActivity extends AppCompatActivity {
     
     private void updateBookmarkButton() {
         if (isBookmarked) {
-            bookmarkButton.setText(R.string.remove_bookmark);
+            bookmarkButton.setText(R.string.bookmark_removed);
             bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
                     R.drawable.ic_bookmark_filled, 0, 0, 0);
         } else {
-            bookmarkButton.setText(R.string.add_bookmark);
+            bookmarkButton.setText(R.string.bookmark_added);
             bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(
                     R.drawable.ic_bookmark_outline, 0, 0, 0);
         }

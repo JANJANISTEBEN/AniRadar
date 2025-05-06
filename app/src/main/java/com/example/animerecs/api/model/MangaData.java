@@ -8,7 +8,7 @@ import java.util.List;
 public class MangaData {
 
     @SerializedName("mal_id")
-    private int id;
+    private int malId;
     
     @SerializedName("title")
     private String title;
@@ -49,11 +49,15 @@ public class MangaData {
     
     // Getters and Setters
     public int getId() {
-        return id;
+        return malId;
+    }
+    
+    public String getMalId() {
+        return String.valueOf(malId);
     }
     
     public void setId(int id) {
-        this.id = id;
+        this.malId = id;
     }
     
     public String getTitle() {

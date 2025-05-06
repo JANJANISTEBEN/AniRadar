@@ -94,7 +94,7 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
         });
         
         // Check if bookmarked
-        final int itemId = id;
+        final String itemId = String.valueOf(id);
         final String itemType = this.itemType == TYPE_ANIME ? "anime" : "manga";
         bookmarkRepository.checkIfBookmarked(itemId, itemType, isBookmarked -> {
             // Update bookmark icon

@@ -35,9 +35,53 @@
             android:id="@+id/searchView"
             style="@style/AppSearchView"
             android:queryHint="@string/search_anime"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/filterButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/filterButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_filter"
+            android:contentDescription="Filter"
+            app:layout_constraintBottom_toBottomOf="@+id/searchView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/searchView"
+            app:tint="@color/primary" />
+
+        <TextView
+            android:id="@+id/activeFiltersText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/active_filters"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
+            android:visibility="gone"
+            android:drawableStart="@drawable/ic_check_circle"
+            android:drawablePadding="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+        <Button
+            android:id="@+id/clearFiltersButton"
+            style="@style/TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingVertical="4dp"
+            android:text="Clear"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/activeFiltersText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/activeFiltersText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

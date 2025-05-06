@@ -15,12 +15,16 @@ public class MangaListResponse {
         return data;
     }
     
-    public void setData(List<MangaData> data) {
-        this.data = data;
+    public List<MangaData> getMangaList() {
+        return data;
     }
     
     public Pagination getPagination() {
         return pagination;
+    }
+    
+    public void setData(List<MangaData> data) {
+        this.data = data;
     }
     
     public void setPagination(Pagination pagination) {

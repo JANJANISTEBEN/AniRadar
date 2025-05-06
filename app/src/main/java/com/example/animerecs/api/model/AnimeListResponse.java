@@ -6,34 +6,30 @@ import java.util.List;
 
 public class AnimeListResponse {
     @SerializedName("data")
-    private List<AnimeData> animeList;
+    private List<AnimeData> data;
     
     @SerializedName("pagination")
     private Pagination pagination;
     
-    public List<AnimeData> getAnimeList() {
-        return animeList;
+    public List<AnimeData> getData() {
+        return data;
     }
     
-    public void setAnimeList(List<AnimeData> animeList) {
-        this.animeList = animeList;
+    public List<AnimeData> getAnimeList() {
+        return data;
     }
     
     public Pagination getPagination() {
         return pagination;
     }
     
-    public void setPagination(Pagination pagination) {
-        this.pagination = pagination;
-    }
-    
     // Debug helper method
     public String toDataString() {
-        if (animeList == null) return "null animeList";
+        if (data == null) return "null animeList";
         StringBuilder sb = new StringBuilder();
-        sb.append("AnimeListResponse: ").append(animeList.size()).append(" items\n");
-        for (int i = 0; i < Math.min(3, animeList.size()); i++) {
-            AnimeData data = animeList.get(i);
+        sb.append("AnimeListResponse: ").append(data.size()).append(" items\n");
+        for (int i = 0; i < Math.min(3, data.size()); i++) {
+            AnimeData data = this.data.get(i);
             sb.append(i).append(": ").append(data.getTitle())
               .append(" (").append(data.getType()).append(")\n");
         }

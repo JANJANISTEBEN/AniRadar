@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.animerecs.R;
-import com.example.animerecs.data.model.Bookmark;
+import com.example.animerecs.model.Bookmark;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
     
     public interface OnBookmarkClickListener {
         void onBookmarkClick(Bookmark bookmark);
-        void onBookmarkRemove(Bookmark bookmark);
+        void onBookmarkDelete(Bookmark bookmark);
     }
     
     public BookmarkAdapter(Context context, List<Bookmark> bookmarks, OnBookmarkClickListener listener) {
@@ -43,31 +43,28 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
     
     @Override
     public void onBindViewHolder(@NonNull BookmarkViewHolder holder, int position) {
-        Bookmark bookmark = bookmarks.get(position);
+        final Bookmark bookmark = bookmarks.get(position);
         
         holder.textTitle.setText(bookmark.getTitle());
         holder.textType.setText(bookmark.getType());
-        holder.textScore.setText(String.valueOf(bookmark.getScore()));
         
+        // Load image with Glide
         Glide.with(context)
                 .load(bookmark.getImageUrl())
-                .placeholder(bookmark.getType().equals("anime") ? 
-                        R.drawable.placeholder_anime : R.drawable.placeholder_manga)
-                .error(bookmark.getType().equals("anime") ? 
-                        R.drawable.placeholder_anime : R.drawable.placeholder_manga)
-                .into(holder.imageBookmark);
+                .placeholder(R.drawable.placeholder_image)
+                .into(holder.imageView);
         
-        // Set click listener
+        // Handle click on the entire item
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onBookmarkClick(bookmark);
             }
         });
         
-        // Set remove button click listener
-        holder.btnRemove.setOnClickListener(v -> {
+        // Handle delete button click
+        holder.buttonDelete.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onBookmarkRemove(bookmark);
+                listener.onBookmarkDelete(bookmark);
             }
         });
     }
@@ -83,19 +80,17 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
     }
     
     public static class BookmarkViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageBookmark;
+        ImageView imageView;
         TextView textTitle;
         TextView textType;
-        TextView textScore;
-        ImageView btnRemove;
+        ImageView buttonDelete;
         
         public BookmarkViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageBookmark = itemView.findViewById(R.id.image_bookmark);
+            imageView = itemView.findViewById(R.id.image_bookmark);
             textTitle = itemView.findViewById(R.id.text_title);
             textType = itemView.findViewById(R.id.text_type);
-            textScore = itemView.findViewById(R.id.text_score);
-            btnRemove = itemView.findViewById(R.id.btn_remove);
+            buttonDelete = itemView.findViewById(R.id.btn_remove);
         }
     }
 } 

@@ -1,5 +1,6 @@
 package com.example.animerecs.ui.bookmarks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.animerecs.R;
-import com.example.animerecs.data.model.Bookmark;
+import com.example.animerecs.model.Bookmark;
 import com.example.animerecs.databinding.FragmentBookmarksBinding;
 import com.example.animerecs.ui.anime.AnimeDetailActivity;
 import com.example.animerecs.ui.manga.MangaDetailActivity;
@@ -25,6 +28,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBookmarkClickListener {
 
@@ -79,22 +83,47 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBoo
     
     @Override
     public void onBookmarkClick(Bookmark bookmark) {
-        if (bookmark.getType().equals("anime")) {
-            startActivity(AnimeDetailActivity.newIntent(getContext(), String.valueOf(bookmark.getId())));
-        } else if (bookmark.getType().equals("manga")) {
-            startActivity(MangaDetailActivity.newIntent(getContext(), String.valueOf(bookmark.getId())));
+        // Navigate to appropriate detail screen based on bookmark type
+        if (bookmark.isAnime()) {
+            Intent intent = new Intent(getContext(), AnimeDetailActivity.class);
+            intent.putExtra("anime_id", bookmark.getItemId());
+            intent.putExtra("anime_title", bookmark.getTitle());
+            intent.putExtra("anime_image_url", bookmark.getImageUrl());
+            startActivity(intent);
+        } else if (bookmark.isManga()) {
+            Intent intent = new Intent(getContext(), MangaDetailActivity.class);
+            intent.putExtra("manga_id", bookmark.getItemId());
+            intent.putExtra("manga_title", bookmark.getTitle());
+            intent.putExtra("manga_image_url", bookmark.getImageUrl());
+            startActivity(intent);
         }
     }
     
     @Override
-    public void onBookmarkRemove(Bookmark bookmark) {
-        viewModel.delete(bookmark);
+    public void onBookmarkDelete(Bookmark bookmark) {
+        // Remove bookmark
+        viewModel.removeBookmark(bookmark);
+        Toast.makeText(requireContext(), getString(R.string.bookmark_removed), Toast.LENGTH_SHORT).show();
+        
+        // If we're on the specific tab for this bookmark type, update UI
+        if ((bookmark.isAnime() && animeAdapter != null) || 
+                (bookmark.isManga() && mangaAdapter != null)) {
+            refreshBookmarkLists();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    
+    /**
+     * Refresh bookmark lists for both anime and manga
+     */
+    private void refreshBookmarkLists() {
+        // Refresh data through ViewModel
+        viewModel.refreshBookmarks();
     }
     
     // ViewPager adapter for Anime and Manga tabs
@@ -209,16 +238,16 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBoo
         
         @Override
         public void onBookmarkClick(Bookmark bookmark) {
-            if (getActivity() != null) {
-                startActivity(AnimeDetailActivity.newIntent(getContext(), String.valueOf(bookmark.getId())));
-            }
+            // Navigate to anime detail activity
+            startActivity(AnimeDetailActivity.newIntent(getContext(), bookmark.getItemId()));
         }
         
         @Override
-        public void onBookmarkRemove(Bookmark bookmark) {
-            if (viewModel != null) {
-                viewModel.delete(bookmark);
-            }
+        public void onBookmarkDelete(Bookmark bookmark) {
+            // Handle anime bookmark deletion
+            BookmarksViewModel viewModel = new ViewModelProvider(requireActivity()).get(BookmarksViewModel.class);
+            viewModel.removeBookmark(bookmark);
+            Toast.makeText(requireContext(), getString(R.string.bookmark_removed), Toast.LENGTH_SHORT).show();
         }
     }
     
@@ -308,16 +337,16 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBoo
         
         @Override
         public void onBookmarkClick(Bookmark bookmark) {
-            if (getActivity() != null) {
-                startActivity(MangaDetailActivity.newIntent(getContext(), String.valueOf(bookmark.getId())));
-            }
+            // Navigate to manga detail activity
+            startActivity(MangaDetailActivity.newIntent(getContext(), bookmark.getItemId()));
         }
         
         @Override
-        public void onBookmarkRemove(Bookmark bookmark) {
-            if (viewModel != null) {
-                viewModel.delete(bookmark);
-            }
+        public void onBookmarkDelete(Bookmark bookmark) {
+            // Handle manga bookmark deletion
+            BookmarksViewModel viewModel = new ViewModelProvider(requireActivity()).get(BookmarksViewModel.class);
+            viewModel.removeBookmark(bookmark);
+            Toast.makeText(requireContext(), getString(R.string.bookmark_removed), Toast.LENGTH_SHORT).show();
         }
     }
 } 

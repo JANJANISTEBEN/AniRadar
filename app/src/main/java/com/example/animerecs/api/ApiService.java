@@ -43,21 +43,25 @@ public interface ApiService {
             @Query("sort") String sort);
     
     @GET("top/manga")
-    Call<MangaListResponse> getTopManga(@Query("page") int page);
+    Call<MangaListResponse> getTopManga(
+            @Query("page") int page,
+            @Query("limit") int limit);
     
     @GET("manga")
     Call<MangaListResponse> searchManga(
             @Query("q") String query, 
-            @Query("page") int page);
+            @Query("page") int page,
+            @Query("limit") int limit);
     
     @GET("manga")
     Call<MangaListResponse> getMangaWithFilter(
             @Query("type") String type,
             @Query("status") String status,
-            @Query("min_score") int minScore,
-            @Query("max_score") int maxScore,
+            @Query("min_score") Float minScore,
+            @Query("max_score") Float maxScore,
             @Query("genres") String genres,
             @Query("order_by") String orderBy,
             @Query("sort") String sort,
-            @Query("page") int page);
+            @Query("page") int page,
+            @Query("limit") int limit);
 }

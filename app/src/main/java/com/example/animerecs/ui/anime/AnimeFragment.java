@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,8 @@ import com.example.animerecs.data.model.Bookmark;
 import com.example.animerecs.data.repository.BookmarkRepository;
 import com.example.animerecs.databinding.FragmentAnimeBinding;
 import com.example.animerecs.ui.bookmarks.BookmarksViewModel;
+import com.example.animerecs.ui.filter.FilterDialog;
+import com.example.animerecs.ui.filter.FilterOptions;
 import com.example.animerecs.util.ColorUtils;
 
 import java.util.ArrayList;
@@ -46,6 +49,9 @@ public class AnimeFragment extends Fragment implements AnimeAdapter.OnAnimeClick
     private View errorRetryLayout;
     private Button retryButton;
     private TextView errorRetryText;
+    private ImageButton filterButton;
+    private TextView activeFiltersText;
+    private Button clearFiltersButton;
     
     private String currentSearchQuery = "";
     private boolean isSearchActive = false;
@@ -84,6 +90,9 @@ public class AnimeFragment extends Fragment implements AnimeAdapter.OnAnimeClick
         errorRetryLayout = binding.errorRetryLayout;
         retryButton = binding.retryButton;
         errorRetryText = binding.errorRetryText;
+        filterButton = binding.filterButton;
+        activeFiltersText = binding.activeFiltersText;
+        clearFiltersButton = binding.clearFiltersButton;
         
         // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -98,6 +107,15 @@ public class AnimeFragment extends Fragment implements AnimeAdapter.OnAnimeClick
             } else {
                 viewModel.loadTopAnime();
             }
+        });
+        
+        // Set up filter button
+        filterButton.setOnClickListener(v -> showFilterDialog());
+        
+        // Set up clear filters button
+        clearFiltersButton.setOnClickListener(v -> {
+            viewModel.clearFilters();
+            updateFilterIndicator(false);
         });
         
         // Set up scroll listener for pagination
@@ -151,6 +169,10 @@ public class AnimeFragment extends Fragment implements AnimeAdapter.OnAnimeClick
                 
                 // Hide error views when we have data
                 errorRetryLayout.setVisibility(View.GONE);
+            } else if (viewModel.hasActiveFilters()) {
+                // Show no results for filters message
+                errorRetryText.setText(R.string.no_results_found);
+                errorRetryLayout.setVisibility(View.VISIBLE);
             }
             
             // Create a new list to ensure the adapter sees it as new data
@@ -198,73 +220,70 @@ public class AnimeFragment extends Fragment implements AnimeAdapter.OnAnimeClick
                     }
                 }
             });
-
-            // Handle error text visibility
-            if (animeList.isEmpty()) {
-                errorTextView.setVisibility(View.VISIBLE);
-                errorTextView.setText("No results found");
-            } else {
-                errorTextView.setVisibility(View.GONE);
-            }
         });
         
+        // Observe active filters
+        viewModel.getActiveFilters().observe(getViewLifecycleOwner(), filterOptions -> {
+            updateFilterIndicator(filterOptions != null && filterOptions.hasActiveFilters());
+        });
+        
+        // Observe loading state
         viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
-            if (adapter.getItemCount() == 0) {
-                // Show main loading indicator for initial load
-                loadingIndicator.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-            } else {
-                // Show bottom loading indicator for pagination
-                loadingMoreIndicator.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-            }
-            
-            // Ensure both indicators are hidden when not loading
-            if (!isLoading) {
-                loadingIndicator.setVisibility(View.GONE);
-                loadingMoreIndicator.setVisibility(View.GONE);
-            }
-            
-            // Hide error retry layout when loading
-            if (isLoading) {
-                errorRetryLayout.setVisibility(View.GONE);
-            }
+            loadingIndicator.setVisibility(isLoading && viewModel.getAnimeList().getValue().isEmpty() 
+                    ? View.VISIBLE : View.GONE);
+            loadingMoreIndicator.setVisibility(isLoading && !viewModel.getAnimeList().getValue().isEmpty() 
+                    ? View.VISIBLE : View.GONE);
         });
         
+        // Observe error messages
         viewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
             if (errorMessage != null && !errorMessage.isEmpty()) {
+                errorRetryText.setText(errorMessage);
+                errorRetryLayout.setVisibility(View.VISIBLE);
                 Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
-                
-                if (adapter.getItemCount() == 0) {
-                    // Show error retry layout instead of just text
-                    errorTextView.setVisibility(View.GONE);
-                    errorRetryLayout.setVisibility(View.VISIBLE);
-                    errorRetryText.setText(errorMessage);
-                }
-            } else {
-                // No error, hide retry layout
-                errorRetryLayout.setVisibility(View.GONE);
             }
         });
         
         // Load initial data
-        viewModel.loadTopAnime();
+        if (viewModel.getAnimeList().getValue().isEmpty()) {
+            viewModel.loadTopAnime();
+        }
         
         return root;
     }
     
-    private void performSearch(String query) {
-        if (query.isEmpty()) {
-            // If search is cleared, load top anime
-            isSearchActive = false;
-            currentSearchQuery = "";
-            viewModel.loadTopAnime();
-        } else {
-            // Perform search
-            isSearchActive = true;
-            currentSearchQuery = query;
-            viewModel.searchAnime(query);
+    private void showFilterDialog() {
+        if (getContext() == null) return;
+        
+        FilterDialog filterDialog = new FilterDialog(
+                getContext(), 
+                FilterDialog.CONTENT_TYPE_ANIME,
+                options -> viewModel.setActiveFilters(options));
+        
+        // Set current filter options if any
+        FilterOptions currentFilters = viewModel.getActiveFilters().getValue();
+        if (currentFilters != null) {
+            filterDialog.setFilterOptions(currentFilters);
         }
+        
+        filterDialog.show();
     }
-
+    
+    private void updateFilterIndicator(boolean isActive) {
+        activeFiltersText.setVisibility(isActive ? View.VISIBLE : View.GONE);
+        clearFiltersButton.setVisibility(isActive ? View.VISIBLE : View.GONE);
+    }
+    
+    private void performSearch(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return;
+        }
+        
+        currentSearchQuery = query.trim();
+        isSearchActive = true;
+        viewModel.searchAnime(currentSearchQuery);
+    }
+    
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -273,60 +292,57 @@ public class AnimeFragment extends Fragment implements AnimeAdapter.OnAnimeClick
     
     @Override
     public void onAnimeClick(AnimeData anime) {
-        // Navigate to detail screen
         if (getContext() != null && anime != null) {
-            startActivity(AnimeDetailActivity.newIntent(getContext(), String.valueOf(anime.getId())));
+            // Launch the detail activity for this anime
+            com.example.animerecs.ui.detail.DetailHelper.openAnimeDetail(getContext(), anime);
         }
     }
     
     @Override
     public void onBookmarkClick(AnimeData anime, boolean isCurrentlyBookmarked) {
+        if (anime == null) return;
+        
         if (isCurrentlyBookmarked) {
-            // Remove bookmark
-            bookmarkRepository.deleteById(anime.getId(), "anime");
-            Toast.makeText(getContext(), "Removed from bookmarks", Toast.LENGTH_SHORT).show();
+            // Remove from bookmarks
+            bookmarkRepository.removeFromBookmarks(anime.getMalId(), Bookmark.TYPE_ANIME);
         } else {
-            // Add bookmark
-            Bookmark bookmark = new Bookmark(
-                    anime.getId(),
-                    anime.getTitle(),
-                    anime.getImageUrl(),
-                    "anime",
-                    (float) anime.getScore(),
-                    anime.getSynopsis(),
-                    anime.getStatus(),
-                    anime.getUrl(),
-                    null // userId will be set in repository
-            );
-            
-            bookmarksViewModel.insert(bookmark);
-            Toast.makeText(getContext(), "Added to bookmarks", Toast.LENGTH_SHORT).show();
+            // Add to bookmarks
+            Bookmark bookmark = new Bookmark();
+            bookmark.setItemId(anime.getMalId());
+            bookmark.setTitle(anime.getTitle());
+            bookmark.setImageUrl(anime.getImages().getJpg().getImageUrl());
+            bookmark.setType(Bookmark.TYPE_ANIME);
+            bookmarkRepository.addToBookmarks(bookmark);
         }
+        
+        // Force a refresh of the adapter to show the new bookmark state
+        adapter.notifyDataSetChanged();
     }
-
+    
     @Override
     public void onResume() {
         super.onResume();
-        android.util.Log.d("AnimeFragment", "onResume called");
         
-        // Simplified onResume
-        if (viewModel != null && recyclerView != null) {
-            // Just refresh the current data
-            viewModel.refreshCurrentData();
+        // Refresh bookmark states
+        if (adapter != null) {
+            adapter.refreshBookmarkStates();
+        }
+        
+        // Check for pending filter change
+        if (viewModel.hasActiveFilters()) {
+            updateFilterIndicator(true);
         }
     }
     
     @Override
     public void onPause() {
-        android.util.Log.d("AnimeFragment", "onPause called");
         super.onPause();
     }
-
-    /**
-     * Apply appropriate colors to views based on the current theme
-     */
+    
     private void applyThemeColors() {
-        // Apply theme colors to all views
+        if (getContext() == null || binding == null) return;
+        
+        // Apply colors to all views
         ColorUtils.applyThemeColors(binding.getRoot(), requireContext());
     }
 } 

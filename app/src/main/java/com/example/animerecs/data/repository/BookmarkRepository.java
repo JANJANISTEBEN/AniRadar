@@ -7,209 +7,170 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.animerecs.data.model.Bookmark;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class BookmarkRepository {
     private static final String TAG = "BookmarkRepository";
-    private static final String COLLECTION_BOOKMARKS = "bookmarks";
     
-    private FirebaseFirestore db;
-    private FirebaseAuth auth;
-    private MutableLiveData<List<Bookmark>> allBookmarks;
-    private MutableLiveData<List<Bookmark>> animeBookmarks;
-    private MutableLiveData<List<Bookmark>> mangaBookmarks;
+    private final FirebaseFirestore db;
+    private final MutableLiveData<List<Bookmark>> animeBookmarks = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<Bookmark>> mangaBookmarks = new MutableLiveData<>(new ArrayList<>());
     
     public BookmarkRepository() {
         db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
-        allBookmarks = new MutableLiveData<>(new ArrayList<>());
-        animeBookmarks = new MutableLiveData<>(new ArrayList<>());
-        mangaBookmarks = new MutableLiveData<>(new ArrayList<>());
     }
     
-    public LiveData<List<Bookmark>> getAllBookmarks() {
-        if (auth.getCurrentUser() == null) {
-            return allBookmarks;
-        }
-        
-        String userId = auth.getCurrentUser().getUid();
-        db.collection(COLLECTION_BOOKMARKS)
-                .whereEqualTo("userId", userId)
-                .addSnapshotListener((value, error) -> {
-                    if (error != null) {
-                        Log.e(TAG, "Error listening to bookmarks", error);
-                        return;
-                    }
-                    
-                    List<Bookmark> bookmarkList = new ArrayList<>();
-                    if (value != null) {
-                        for (QueryDocumentSnapshot document : value) {
-                            Bookmark bookmark = document.toObject(Bookmark.class);
-                            bookmark.setDocumentId(document.getId());
-                            bookmarkList.add(bookmark);
-                        }
-                    }
-                    
-                    allBookmarks.setValue(bookmarkList);
-                });
-                
-        return allBookmarks;
+    private CollectionReference getBookmarksCollection() {
+        return db.collection("bookmarks");
     }
     
-    public LiveData<List<Bookmark>> getBookmarksByType(String type) {
-        MutableLiveData<List<Bookmark>> result = type.equals("anime") ? animeBookmarks : mangaBookmarks;
-        
-        if (auth.getCurrentUser() == null) {
-            return result;
-        }
-        
-        String userId = auth.getCurrentUser().getUid();
-        db.collection(COLLECTION_BOOKMARKS)
-                .whereEqualTo("userId", userId)
-                .whereEqualTo("type", type)
-                .addSnapshotListener((value, error) -> {
-                    if (error != null) {
-                        Log.e(TAG, "Error listening to bookmarks", error);
-                        return;
-                    }
-                    
-                    List<Bookmark> bookmarkList = new ArrayList<>();
-                    if (value != null) {
-                        for (QueryDocumentSnapshot document : value) {
-                            Bookmark bookmark = document.toObject(Bookmark.class);
-                            bookmark.setDocumentId(document.getId());
-                            bookmarkList.add(bookmark);
-                        }
-                    }
-                    
-                    result.setValue(bookmarkList);
-                });
-                
-        return result;
+    private String getCurrentUserId() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        return user != null ? user.getUid() : null;
     }
     
-    public void insert(Bookmark bookmark) {
-        if (auth.getCurrentUser() == null) {
+    public void addToBookmarks(Bookmark bookmark) {
+        String userId = getCurrentUserId();
+        
+        if (userId == null) {
+            Log.e(TAG, "Cannot add bookmark: User not logged in");
             return;
         }
         
-        // Ensure userId is set
-        bookmark.setUserId(auth.getCurrentUser().getUid());
+        // Add user ID to bookmark
+        bookmark.setUserId(userId);
         
-        db.collection(COLLECTION_BOOKMARKS)
+        getBookmarksCollection()
                 .add(bookmark)
-                .addOnSuccessListener(documentReference -> 
-                    Log.d(TAG, "Bookmark added with ID: " + documentReference.getId()))
-                .addOnFailureListener(e -> 
-                    Log.e(TAG, "Error adding bookmark", e));
+                .addOnSuccessListener(documentReference -> {
+                    Log.d(TAG, "Bookmark added with ID: " + documentReference.getId());
+                    
+                    // Update the bookmark with its document ID
+                    documentReference.update("documentId", documentReference.getId());
+                    
+                    // Refresh bookmarks
+                    refreshBookmarks();
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Error adding bookmark", e));
     }
     
-    public void delete(Bookmark bookmark) {
-        if (auth.getCurrentUser() == null || bookmark.getDocumentId() == null) {
+    public void removeFromBookmarks(String itemId, String type) {
+        String userId = getCurrentUserId();
+        
+        if (userId == null) {
+            Log.e(TAG, "Cannot remove bookmark: User not logged in");
             return;
         }
         
-        db.collection(COLLECTION_BOOKMARKS)
-                .document(bookmark.getDocumentId())
-                .delete()
-                .addOnSuccessListener(aVoid -> 
-                    Log.d(TAG, "Bookmark successfully deleted"))
-                .addOnFailureListener(e -> 
-                    Log.e(TAG, "Error deleting bookmark", e));
-    }
-    
-    public void deleteById(int id, String type) {
-        if (auth.getCurrentUser() == null) {
-            return;
-        }
-        
-        String userId = auth.getCurrentUser().getUid();
-        
-        db.collection(COLLECTION_BOOKMARKS)
-                .whereEqualTo("userId", userId)
-                .whereEqualTo("id", id)
+        getBookmarksCollection()
+                .whereEqualTo("itemId", itemId)
                 .whereEqualTo("type", type)
+                .whereEqualTo("userId", userId)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (DocumentSnapshot document : queryDocumentSnapshots) {
-                        document.getReference().delete();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        document.getReference().delete()
+                                .addOnSuccessListener(aVoid -> {
+                                    Log.d(TAG, "Bookmark successfully deleted");
+                                    
+                                    // Refresh bookmarks
+                                    refreshBookmarks();
+                                })
+                                .addOnFailureListener(e -> Log.e(TAG, "Error deleting bookmark", e));
                     }
                 })
-                .addOnFailureListener(e -> 
-                    Log.e(TAG, "Error finding bookmark to delete", e));
+                .addOnFailureListener(e -> Log.e(TAG, "Error finding bookmark to delete", e));
     }
     
-    public boolean isBookmarked(int id, String type) {
-        if (auth.getCurrentUser() == null) {
-            return false;
-        }
+    public void checkIfBookmarked(String itemId, String type, Consumer<Boolean> callback) {
+        String userId = getCurrentUserId();
         
-        String userId = auth.getCurrentUser().getUid();
-        
-        try {
-            List<DocumentSnapshot> documents = db.collection(COLLECTION_BOOKMARKS)
-                    .whereEqualTo("userId", userId)
-                    .whereEqualTo("id", id)
-                    .whereEqualTo("type", type)
-                    .get()
-                    .getResult()
-                    .getDocuments();
-            
-            return !documents.isEmpty();
-        } catch (Exception e) {
-            Log.e(TAG, "Error checking if bookmark exists", e);
-            return false;
-        }
-    }
-    
-    public void checkIfBookmarked(int id, String type, BookmarkCheckCallback callback) {
-        if (auth.getCurrentUser() == null) {
-            callback.onResult(false);
+        if (userId == null) {
+            callback.accept(false);
             return;
         }
         
-        String userId = auth.getCurrentUser().getUid();
-        
-        db.collection(COLLECTION_BOOKMARKS)
-                .whereEqualTo("userId", userId)
-                .whereEqualTo("id", id)
+        getBookmarksCollection()
+                .whereEqualTo("itemId", itemId)
                 .whereEqualTo("type", type)
+                .whereEqualTo("userId", userId)
                 .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    callback.onResult(!queryDocumentSnapshots.isEmpty());
-                })
+                .addOnSuccessListener(queryDocumentSnapshots -> 
+                        callback.accept(!queryDocumentSnapshots.isEmpty()))
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error checking if bookmarked", e);
-                    callback.onResult(false);
+                    Log.e(TAG, "Error checking bookmark status", e);
+                    callback.accept(false);
                 });
     }
     
-    public interface BookmarkCheckCallback {
-        void onResult(boolean isBookmarked);
+    public LiveData<List<Bookmark>> getAnimeBookmarks() {
+        loadAnimeBookmarks();
+        return animeBookmarks;
     }
     
-    /**
-     * Get the total count of bookmarks for the current user.
-     * This is a synchronous method that returns a default value for UI display.
-     * In a real app, you would use a callback or LiveData to get the actual count.
-     * 
-     * @return The total number of bookmarks for the current user
-     */
-    public int getBookmarkCount() {
-        // Get the current values from our LiveData
-        List<Bookmark> currentBookmarks = allBookmarks.getValue();
+    public LiveData<List<Bookmark>> getMangaBookmarks() {
+        loadMangaBookmarks();
+        return mangaBookmarks;
+    }
+    
+    private void loadAnimeBookmarks() {
+        String userId = getCurrentUserId();
         
-        if (currentBookmarks != null) {
-            return currentBookmarks.size();
+        if (userId == null) {
+            animeBookmarks.setValue(new ArrayList<>());
+            return;
         }
         
-        // Default to 0 if we don't have any data yet
-        // In a real app, you would load this data from Firestore instead
-        return 0;
+        getBookmarksCollection()
+                .whereEqualTo("type", Bookmark.TYPE_ANIME)
+                .whereEqualTo("userId", userId)
+                .orderBy("dateAdded", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Bookmark> bookmarks = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        Bookmark bookmark = document.toObject(Bookmark.class);
+                        bookmarks.add(bookmark);
+                    }
+                    animeBookmarks.setValue(bookmarks);
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Error loading anime bookmarks", e));
+    }
+    
+    private void loadMangaBookmarks() {
+        String userId = getCurrentUserId();
+        
+        if (userId == null) {
+            mangaBookmarks.setValue(new ArrayList<>());
+            return;
+        }
+        
+        getBookmarksCollection()
+                .whereEqualTo("type", Bookmark.TYPE_MANGA)
+                .whereEqualTo("userId", userId)
+                .orderBy("dateAdded", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Bookmark> bookmarks = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        Bookmark bookmark = document.toObject(Bookmark.class);
+                        bookmarks.add(bookmark);
+                    }
+                    mangaBookmarks.setValue(bookmarks);
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Error loading manga bookmarks", e));
+    }
+    
+    public void refreshBookmarks() {
+        loadAnimeBookmarks();
+        loadMangaBookmarks();
     }
 } 

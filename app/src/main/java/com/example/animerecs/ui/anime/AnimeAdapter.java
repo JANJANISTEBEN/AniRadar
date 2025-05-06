@@ -146,7 +146,7 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
         // Set up bookmark button
         if (holder.btnBookmark != null) {
             // Check if this anime is bookmarked
-            bookmarkRepository.checkIfBookmarked(anime.getId(), "anime", isBookmarked -> {
+            bookmarkRepository.checkIfBookmarked(anime.getMalId(), Bookmark.TYPE_ANIME, isBookmarked -> {
                 // Update bookmark icon based on bookmark status
                 holder.btnBookmark.setImageResource(
                         isBookmarked ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_border);
@@ -170,6 +170,15 @@ public class AnimeAdapter extends RecyclerView.Adapter<AnimeAdapter.AnimeViewHol
         int count = animeList != null ? animeList.size() : 0;
         Log.d("AnimeAdapter", "getItemCount returning " + count);
         return count;
+    }
+
+    public void submitList(List<AnimeData> newList) {
+        this.animeList = newList;
+        notifyDataSetChanged();
+    }
+    
+    public void refreshBookmarkStates() {
+        notifyDataSetChanged();
     }
 
     static class AnimeViewHolder extends RecyclerView.ViewHolder {

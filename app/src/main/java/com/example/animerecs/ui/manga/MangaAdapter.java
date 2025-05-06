@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.animerecs.R;
 import com.example.animerecs.api.model.MangaData;
 import com.example.animerecs.data.repository.BookmarkRepository;
+import com.example.animerecs.data.model.Bookmark;
 
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.MangaViewHol
         });
         
         // Check if manga is bookmarked
-        bookmarkRepository.checkIfBookmarked(manga.getId(), "manga", isBookmarked -> {
+        bookmarkRepository.checkIfBookmarked(manga.getMalId(), Bookmark.TYPE_MANGA, isBookmarked -> {
             // Update bookmark icon based on status
             holder.bookmarkIcon.setImageResource(isBookmarked ? 
                     R.drawable.ic_bookmark_filled : R.drawable.ic_bookmark_border);
