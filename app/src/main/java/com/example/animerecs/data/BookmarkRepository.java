@@ -3,7 +3,7 @@ package com.example.animerecs.data;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.animerecs.model.Bookmark;
+import com.example.animerecs.data.model.Bookmark;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -41,7 +41,7 @@ public class BookmarkRepository {
         if (userId == null) return;
         
         bookmark.setUserId(userId);
-        getBookmarksCollection().add(bookmark);
+        getBookmarksCollection().add(bookmark.toMap());
     }
     
     public void removeFromBookmarks(String itemId, String type) {

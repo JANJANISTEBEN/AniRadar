@@ -26,7 +26,7 @@ import com.example.animerecs.api.ApiClient;
 import com.example.animerecs.api.model.AnimeData;
 import com.example.animerecs.api.model.AnimeResponse;
 import com.example.animerecs.data.repository.ThemeManager;
-import com.example.animerecs.model.Bookmark;
+import com.example.animerecs.data.model.Bookmark;
 import com.example.animerecs.model.UserPreference;
 import com.example.animerecs.repository.UserRepository;
 import com.google.android.material.appbar.CollapsingToolbarLayout;

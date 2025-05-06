@@ -28,11 +28,11 @@ public class BookmarkRepository {
         db = FirebaseFirestore.getInstance();
     }
     
-    private CollectionReference getBookmarksCollection() {
+    public CollectionReference getBookmarksCollection() {
         return db.collection("bookmarks");
     }
     
-    private String getCurrentUserId() {
+    public String getCurrentUserId() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         return user != null ? user.getUid() : null;
     }

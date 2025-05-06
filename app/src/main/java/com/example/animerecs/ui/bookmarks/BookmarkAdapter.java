@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.animerecs.R;
-import com.example.animerecs.model.Bookmark;
+import com.example.animerecs.data.model.Bookmark;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +75,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
     }
     
     public void setBookmarks(List<Bookmark> bookmarks) {
-        this.bookmarks = bookmarks;
+        this.bookmarks = bookmarks != null ? bookmarks : new ArrayList<>();
         notifyDataSetChanged();
     }
     

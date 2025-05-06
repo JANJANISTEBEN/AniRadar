@@ -305,6 +305,7 @@ public class AnimeFragment extends Fragment implements AnimeAdapter.OnAnimeClick
         if (isCurrentlyBookmarked) {
             // Remove from bookmarks
             bookmarkRepository.removeFromBookmarks(anime.getMalId(), Bookmark.TYPE_ANIME);
+            Toast.makeText(getContext(), getString(R.string.bookmark_removed), Toast.LENGTH_SHORT).show();
         } else {
             // Add to bookmarks
             Bookmark bookmark = new Bookmark();
@@ -313,10 +314,14 @@ public class AnimeFragment extends Fragment implements AnimeAdapter.OnAnimeClick
             bookmark.setImageUrl(anime.getImages().getJpg().getImageUrl());
             bookmark.setType(Bookmark.TYPE_ANIME);
             bookmarkRepository.addToBookmarks(bookmark);
+            Toast.makeText(getContext(), getString(R.string.bookmark_added), Toast.LENGTH_SHORT).show();
         }
         
         // Force a refresh of the adapter to show the new bookmark state
         adapter.notifyDataSetChanged();
+        
+        // Refresh bookmarks in ViewModel to reflect changes across the app
+        bookmarksViewModel.refreshBookmarks();
     }
     
     @Override

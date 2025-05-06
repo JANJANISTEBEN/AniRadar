@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.animerecs.R;
-import com.example.animerecs.model.Bookmark;
+import com.example.animerecs.data.model.Bookmark;
 import com.example.animerecs.databinding.FragmentBookmarksBinding;
 import com.example.animerecs.ui.anime.AnimeDetailActivity;
 import com.example.animerecs.ui.manga.MangaDetailActivity;
@@ -34,8 +33,6 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBoo
 
     private FragmentBookmarksBinding binding;
     private BookmarksViewModel viewModel;
-    private BookmarkAdapter animeAdapter;
-    private BookmarkAdapter mangaAdapter;
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
 
@@ -70,27 +67,44 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBoo
             }
         }).attach();
         
+        // Observe loading and error states
+        viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
+            if (binding != null && binding.loadingIndicator != null) {
+                binding.loadingIndicator.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            }
+        });
+        
+        viewModel.getIsError().observe(getViewLifecycleOwner(), isError -> {
+            if (binding != null && binding.errorLayout != null) {
+                binding.errorLayout.setVisibility(isError ? View.VISIBLE : View.GONE);
+            }
+        });
+        
+        viewModel.getErrorMessage().observe(getViewLifecycleOwner(), message -> {
+            if (binding != null && binding.errorText != null && message != null) {
+                binding.errorText.setText(message);
+            }
+        });
+        
+        // Initial load of bookmarks
+        viewModel.refreshBookmarks();
+        
         return root;
     }
     
-    /**
-     * Apply appropriate colors to views based on the current theme
-     */
     private void applyThemeColors() {
-        // Apply theme colors to all views
         ColorUtils.applyThemeColors(binding.getRoot(), requireContext());
     }
     
     @Override
     public void onBookmarkClick(Bookmark bookmark) {
-        // Navigate to appropriate detail screen based on bookmark type
-        if (bookmark.isAnime()) {
+        if (Bookmark.TYPE_ANIME.equals(bookmark.getType())) {
             Intent intent = new Intent(getContext(), AnimeDetailActivity.class);
             intent.putExtra("anime_id", bookmark.getItemId());
             intent.putExtra("anime_title", bookmark.getTitle());
             intent.putExtra("anime_image_url", bookmark.getImageUrl());
             startActivity(intent);
-        } else if (bookmark.isManga()) {
+        } else if (Bookmark.TYPE_MANGA.equals(bookmark.getType())) {
             Intent intent = new Intent(getContext(), MangaDetailActivity.class);
             intent.putExtra("manga_id", bookmark.getItemId());
             intent.putExtra("manga_title", bookmark.getTitle());
@@ -105,25 +119,14 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBoo
         viewModel.removeBookmark(bookmark);
         Toast.makeText(requireContext(), getString(R.string.bookmark_removed), Toast.LENGTH_SHORT).show();
         
-        // If we're on the specific tab for this bookmark type, update UI
-        if ((bookmark.isAnime() && animeAdapter != null) || 
-                (bookmark.isManga() && mangaAdapter != null)) {
-            refreshBookmarkLists();
-        }
+        // Refresh bookmarks to update UI
+        viewModel.refreshBookmarks();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-    
-    /**
-     * Refresh bookmark lists for both anime and manga
-     */
-    private void refreshBookmarkLists() {
-        // Refresh data through ViewModel
-        viewModel.refreshBookmarks();
     }
     
     // ViewPager adapter for Anime and Manga tabs
@@ -194,11 +197,7 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBoo
             return root;
         }
         
-        /**
-         * Apply appropriate colors to views based on the current theme
-         */
         private void applyThemeColors(View rootView) {
-            // Apply theme colors to all views
             ColorUtils.applyThemeColors(rootView, requireContext());
         }
         
@@ -212,7 +211,7 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBoo
                 loadingIndicator.setVisibility(View.GONE);
                 adapter.setBookmarks(bookmarks);
                 
-                if (bookmarks.isEmpty()) {
+                if (bookmarks == null || bookmarks.isEmpty()) {
                     recyclerView.setVisibility(View.GONE);
                     emptyView.setVisibility(View.VISIBLE);
                     emptyView.setText("No anime bookmarks yet");
@@ -238,16 +237,14 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBoo
         
         @Override
         public void onBookmarkClick(Bookmark bookmark) {
-            // Navigate to anime detail activity
             startActivity(AnimeDetailActivity.newIntent(getContext(), bookmark.getItemId()));
         }
         
         @Override
         public void onBookmarkDelete(Bookmark bookmark) {
-            // Handle anime bookmark deletion
-            BookmarksViewModel viewModel = new ViewModelProvider(requireActivity()).get(BookmarksViewModel.class);
             viewModel.removeBookmark(bookmark);
             Toast.makeText(requireContext(), getString(R.string.bookmark_removed), Toast.LENGTH_SHORT).show();
+            viewModel.refreshBookmarks();
         }
     }
     
@@ -293,11 +290,7 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBoo
             return root;
         }
         
-        /**
-         * Apply appropriate colors to views based on the current theme
-         */
         private void applyThemeColors(View rootView) {
-            // Apply theme colors to all views
             ColorUtils.applyThemeColors(rootView, requireContext());
         }
         
@@ -311,7 +304,7 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBoo
                 loadingIndicator.setVisibility(View.GONE);
                 adapter.setBookmarks(bookmarks);
                 
-                if (bookmarks.isEmpty()) {
+                if (bookmarks == null || bookmarks.isEmpty()) {
                     recyclerView.setVisibility(View.GONE);
                     emptyView.setVisibility(View.VISIBLE);
                     emptyView.setText("No manga bookmarks yet");
@@ -337,16 +330,14 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnBoo
         
         @Override
         public void onBookmarkClick(Bookmark bookmark) {
-            // Navigate to manga detail activity
             startActivity(MangaDetailActivity.newIntent(getContext(), bookmark.getItemId()));
         }
         
         @Override
         public void onBookmarkDelete(Bookmark bookmark) {
-            // Handle manga bookmark deletion
-            BookmarksViewModel viewModel = new ViewModelProvider(requireActivity()).get(BookmarksViewModel.class);
             viewModel.removeBookmark(bookmark);
             Toast.makeText(requireContext(), getString(R.string.bookmark_removed), Toast.LENGTH_SHORT).show();
+            viewModel.refreshBookmarks();
         }
     }
 } 

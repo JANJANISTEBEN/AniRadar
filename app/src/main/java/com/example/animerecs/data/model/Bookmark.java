@@ -1,6 +1,8 @@
 package com.example.animerecs.data.model;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Bookmark {
     public static final String TYPE_ANIME = "anime";
@@ -23,6 +25,15 @@ public class Bookmark {
         this.title = title;
         this.imageUrl = imageUrl;
         this.type = type;
+        this.dateAdded = new Date();
+    }
+
+    public Bookmark(String userId, String itemId, String type, String title, String imageUrl) {
+        this.userId = userId;
+        this.itemId = itemId;
+        this.type = type;
+        this.title = title;
+        this.imageUrl = imageUrl;
         this.dateAdded = new Date();
     }
     
@@ -88,5 +99,19 @@ public class Bookmark {
     
     public boolean isManga() {
         return TYPE_MANGA.equals(type);
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("itemId", itemId);
+        map.put("title", title);
+        map.put("imageUrl", imageUrl);
+        map.put("type", type);
+        map.put("dateAdded", dateAdded);
+        map.put("userId", userId);
+        if (documentId != null) {
+            map.put("documentId", documentId);
+        }
+        return map;
     }
 } 

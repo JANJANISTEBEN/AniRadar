@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.animerecs.data.BookmarkRepository;
-import com.example.animerecs.model.Bookmark;
+import com.example.animerecs.data.repository.BookmarkRepository;
+import com.example.animerecs.data.model.Bookmark;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -18,18 +18,14 @@ public class BookmarksViewModel extends ViewModel {
     private MutableLiveData<Boolean> isError = new MutableLiveData<>(false);
     private MutableLiveData<List<Bookmark>> animeBookmarks = new MutableLiveData<>();
     private MutableLiveData<List<Bookmark>> mangaBookmarks = new MutableLiveData<>();
-    private LiveData<List<Bookmark>> allBookmarks;
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
     
     private BookmarkRepository repository;
     
     public BookmarksViewModel() {
         repository = new BookmarkRepository();
-        allBookmarks = repository.getAllBookmarks();
-    }
-    
-    public LiveData<List<Bookmark>> getAllBookmarks() {
-        return allBookmarks;
+        // Initialize by refreshing bookmarks
+        refreshBookmarks();
     }
     
     public LiveData<Boolean> getIsLoading() {
@@ -45,10 +41,16 @@ public class BookmarksViewModel extends ViewModel {
     }
     
     public LiveData<List<Bookmark>> getAnimeBookmarks() {
+        if (animeBookmarks.getValue() == null) {
+            refreshBookmarks();
+        }
         return animeBookmarks;
     }
     
     public LiveData<List<Bookmark>> getMangaBookmarks() {
+        if (mangaBookmarks.getValue() == null) {
+            refreshBookmarks();
+        }
         return mangaBookmarks;
     }
     
@@ -72,6 +74,7 @@ public class BookmarksViewModel extends ViewModel {
                     List<Bookmark> bookmarks = new ArrayList<>();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         Bookmark bookmark = document.toObject(Bookmark.class);
+                        bookmark.setDocumentId(document.getId());
                         bookmarks.add(bookmark);
                     }
                     animeBookmarks.setValue(bookmarks);
@@ -90,6 +93,7 @@ public class BookmarksViewModel extends ViewModel {
                     List<Bookmark> bookmarks = new ArrayList<>();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         Bookmark bookmark = document.toObject(Bookmark.class);
+                        bookmark.setDocumentId(document.getId());
                         bookmarks.add(bookmark);
                     }
                     mangaBookmarks.setValue(bookmarks);
@@ -102,26 +106,22 @@ public class BookmarksViewModel extends ViewModel {
                 });
     }
     
-    // Method to add bookmark
     public void addBookmark(Bookmark bookmark) {
-        repository.insert(bookmark);
+        repository.addToBookmarks(bookmark);
         refreshBookmarks();
     }
     
-    // Method to remove bookmark
     public void removeBookmark(Bookmark bookmark) {
-        repository.delete(bookmark);
+        repository.removeFromBookmarks(bookmark.getItemId(), bookmark.getType());
         refreshBookmarks();
     }
     
-    // Method to delete bookmark by ID and type
     public void deleteBookmark(String id, String type) {
         repository.removeFromBookmarks(id, type);
         refreshBookmarks();
     }
     
-    // Method to check if item is bookmarked
-    public void checkIfBookmarked(String id, String type, Consumer<Boolean>     callback) {
+    public void checkIfBookmarked(String id, String type, Consumer<Boolean> callback) {
         repository.checkIfBookmarked(id, type, callback);
     }
 } 

@@ -28,4 +28,6 @@
     <color name="nav_bar_unselected_item">@color/dark_text_secondary</color>
     <color name="nav_bar_ripple">@color/dark_ripple</color>
     <color name="nav_bar_indicator">@color/dark_accent</color>
+
+    <color name="text_error">#FF5252</color>
 </resources> 

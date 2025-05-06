@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.example.animerecs.api.model.AnimeData;
 import com.example.animerecs.api.model.MangaData;
-import com.example.animerecs.model.Bookmark;
+import com.example.animerecs.data.model.Bookmark;
 import com.example.animerecs.model.UserPreference;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -176,7 +176,7 @@ public class UserRepository {
         return getBookmarksCollection()
                 .whereEqualTo("userId", userId)
                 .whereEqualTo("itemId", itemId)
-                .whereEqualTo("itemType", itemType)
+                .whereEqualTo("type", itemType)
                 .get();
     }
     
@@ -255,29 +255,25 @@ public class UserRepository {
             return Tasks.forException(new Exception("User not logged in"));
         }
         
-        TaskCompletionSource<List<Bookmark>> taskCompletionSource = new TaskCompletionSource<>();
-        
-        getBookmarksCollection()
+        return getBookmarksCollection()
                 .whereEqualTo("userId", userId)
-                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .orderBy("dateAdded", Query.Direction.DESCENDING)
                 .get()
-                .addOnSuccessListener(querySnapshot -> {
+                .continueWith(task -> {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    
                     List<Bookmark> bookmarks = new ArrayList<>();
-                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                    for (DocumentSnapshot document : task.getResult()) {
                         Bookmark bookmark = document.toObject(Bookmark.class);
                         if (bookmark != null) {
-                            bookmark.setId(document.getId());
+                            bookmark.setDocumentId(document.getId());
                             bookmarks.add(bookmark);
                         }
                     }
-                    taskCompletionSource.setResult(bookmarks);
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error getting user bookmarks", e);
-                    taskCompletionSource.setException(e);
+                    return bookmarks;
                 });
-        
-        return taskCompletionSource.getTask();
     }
     
     /**
@@ -291,30 +287,26 @@ public class UserRepository {
             return Tasks.forException(new Exception("User not logged in"));
         }
         
-        TaskCompletionSource<List<Bookmark>> taskCompletionSource = new TaskCompletionSource<>();
-        
-        getBookmarksCollection()
+        return getBookmarksCollection()
                 .whereEqualTo("userId", userId)
-                .whereEqualTo("itemType", Bookmark.TYPE_ANIME)
-                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .whereEqualTo("type", Bookmark.TYPE_ANIME)
+                .orderBy("dateAdded", Query.Direction.DESCENDING)
                 .get()
-                .addOnSuccessListener(querySnapshot -> {
+                .continueWith(task -> {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    
                     List<Bookmark> bookmarks = new ArrayList<>();
-                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                    for (DocumentSnapshot document : task.getResult()) {
                         Bookmark bookmark = document.toObject(Bookmark.class);
                         if (bookmark != null) {
-                            bookmark.setId(document.getId());
+                            bookmark.setDocumentId(document.getId());
                             bookmarks.add(bookmark);
                         }
                     }
-                    taskCompletionSource.setResult(bookmarks);
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error getting anime bookmarks", e);
-                    taskCompletionSource.setException(e);
+                    return bookmarks;
                 });
-        
-        return taskCompletionSource.getTask();
     }
     
     /**
@@ -328,30 +320,26 @@ public class UserRepository {
             return Tasks.forException(new Exception("User not logged in"));
         }
         
-        TaskCompletionSource<List<Bookmark>> taskCompletionSource = new TaskCompletionSource<>();
-        
-        getBookmarksCollection()
+        return getBookmarksCollection()
                 .whereEqualTo("userId", userId)
-                .whereEqualTo("itemType", Bookmark.TYPE_MANGA)
-                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .whereEqualTo("type", Bookmark.TYPE_MANGA)
+                .orderBy("dateAdded", Query.Direction.DESCENDING)
                 .get()
-                .addOnSuccessListener(querySnapshot -> {
+                .continueWith(task -> {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    
                     List<Bookmark> bookmarks = new ArrayList<>();
-                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                    for (DocumentSnapshot document : task.getResult()) {
                         Bookmark bookmark = document.toObject(Bookmark.class);
                         if (bookmark != null) {
-                            bookmark.setId(document.getId());
+                            bookmark.setDocumentId(document.getId());
                             bookmarks.add(bookmark);
                         }
                     }
-                    taskCompletionSource.setResult(bookmarks);
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error getting manga bookmarks", e);
-                    taskCompletionSource.setException(e);
+                    return bookmarks;
                 });
-        
-        return taskCompletionSource.getTask();
     }
     
     /**
