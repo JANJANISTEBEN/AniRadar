@@ -121,7 +121,7 @@ public class BookmarksViewModel extends ViewModel {
     }
     
     // Method to check if item is bookmarked
-    public void checkIfBookmarked(String id, String type, Consumer<Boolean> callback) {
+    public void checkIfBookmarked(String id, String type, Consumer<Boolean>     callback) {
         repository.checkIfBookmarked(id, type, callback);
     }
 } 
